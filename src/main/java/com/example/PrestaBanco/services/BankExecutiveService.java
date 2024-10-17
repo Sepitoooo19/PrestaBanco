@@ -9,6 +9,9 @@ import com.example.PrestaBanco.repositories.BanExecutiveRepository;
 import com.example.PrestaBanco.entities.BankExecutiveEntity;
 import com.example.PrestaBanco.repositories.DebtRepository;
 import com.example.PrestaBanco.entities.DebtEntity;
+import com.example.PrestaBanco.entities.EmploymentHistoryEntity;
+import com.example.PrestaBanco.services.EmploymentHistoryService;
+import com.example.PrestaBanco.repositories.EmploymentHistoryRepository;
 
 
 
@@ -23,6 +26,9 @@ public class BankExecutiveService {
 
     @Autowired
     private DebtRepository debtRepository;
+
+    @Autowired
+    private EmploymentHistoryRepository employmentHistoryRepository;
 
     public List<BankExecutiveEntity> findAll() {
         return bankExecutiveRepository.findAll();
@@ -90,6 +96,8 @@ public class BankExecutiveService {
         return (monthly_salary/ monthly_fee)* 100;
     }
 
+
+
     public double getDebtAmountByRut(String rut) {
         ClientEntity client = clientRepository.findByRut(rut);
         List<DebtEntity> debts = debtRepository.findByClientId(client.getClient_id());
@@ -105,5 +113,19 @@ public class BankExecutiveService {
         return debt_amount;
 
     }
+
+    public List<DebtEntity> getDebtsByRut(String rut) {
+        ClientEntity client = clientRepository.findByRut(rut);
+        return debtRepository.findByClientId(client.getClient_id());
+    }
+
+    public List<EmploymentHistoryEntity> getEmploymentHistoryByRut(String rut) {
+        ClientEntity client = clientRepository.findByRut(rut);
+        return (List<EmploymentHistoryEntity>) employmentHistoryRepository.findByClientId(client.getClient_id());
+    }
+
+
+
+
 
 }

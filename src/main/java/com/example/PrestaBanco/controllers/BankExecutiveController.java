@@ -1,6 +1,8 @@
 package com.example.PrestaBanco.controllers;
 
 import com.example.PrestaBanco.entities.ClientEntity;
+import com.example.PrestaBanco.entities.DebtEntity;
+import com.example.PrestaBanco.entities.EmploymentHistoryEntity;
 import com.example.PrestaBanco.services.BankExecutiveService;
 import com.example.PrestaBanco.services.ClientService;
 import jakarta.persistence.EntityNotFoundException;
@@ -84,6 +86,19 @@ public class BankExecutiveController {
     public ResponseEntity<Double> getDebtAmountByRut(@PathVariable String rut) {
         double debtAmount = bankExecutiveService.getDebtAmountByRut(rut);
         return new ResponseEntity<>(debtAmount, HttpStatus.OK);
+    }
+
+    @GetMapping("/{rut}/debts")
+    public ResponseEntity<List<DebtEntity>> getDebtsByRut(@PathVariable String rut) {
+        List<DebtEntity> debts = bankExecutiveService.getDebtsByRut(rut);
+        return new ResponseEntity<>(debts, HttpStatus.OK);
+    }
+
+    @GetMapping("/{rut}/employment-history")
+    public ResponseEntity<List<EmploymentHistoryEntity>> getEmploymentHistoryByRut(@PathVariable String rut) {
+        List<EmploymentHistoryEntity> employmentHistory = bankExecutiveService.getEmploymentHistoryByRut(rut);
+        return new ResponseEntity<>(employmentHistory, HttpStatus.OK);
+
     }
 
 

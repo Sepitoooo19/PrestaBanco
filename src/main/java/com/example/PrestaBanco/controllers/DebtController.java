@@ -30,9 +30,9 @@ public class DebtController {
     public ResponseEntity<List<DebtEntity>> findByClientId(@PathVariable Long client_id) {
         List<DebtEntity> debts = debtService.findByClientId(client_id);
         if (debts.isEmpty()) {
-            return ResponseEntity.notFound().build(); // Retorna un 404 si no hay deudas
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(debts); // Retorna un 200 y la lista de deudas
+        return ResponseEntity.ok(debts);
     }
     @GetMapping("/debt_amount/{debt_amount}")
     public ResponseEntity<DebtEntity> findByDebtAmount(@PathVariable double debt_amount) {

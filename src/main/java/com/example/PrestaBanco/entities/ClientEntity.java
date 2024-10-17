@@ -70,5 +70,4 @@ public class ClientEntity {
     @Column(name = "number_of_debts")
     private int number_of_debts;
 
-
 }
