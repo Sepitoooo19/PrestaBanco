@@ -66,4 +66,9 @@ public class ClientBankAccountController {
     public ResponseEntity<Boolean> existsByBankName(@PathVariable String bank_name) {
         return ResponseEntity.ok(clientBankAccountService.existsByBankName(bank_name));
     }
+
+    @GetMapping("/account_opening/{account_opening}")
+    public ResponseEntity<ClientBankAccountEntity> findByAccountOpening(@PathVariable String account_opening) {
+        return ResponseEntity.ok(clientBankAccountService.findByAccountOpening(account_opening));
+    }
 }

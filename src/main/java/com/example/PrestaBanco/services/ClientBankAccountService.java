@@ -43,6 +43,10 @@ public class ClientBankAccountService {
         return clientBankAccountRepository.findByTransactionDate(transaction_date);
     }
 
+    public ClientBankAccountEntity findByAccountOpening(String account_opening) {
+        return clientBankAccountRepository.findByAccountOpening(account_opening);
+    }
+
     public boolean existsByClientId(Long client_id) {
         return clientBankAccountRepository.existsByClientId(client_id);
     }

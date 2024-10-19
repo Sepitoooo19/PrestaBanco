@@ -32,11 +32,16 @@ public interface ClientBankAccountRepository extends JpaRepository<ClientBankAcc
     @Query("SELECT c FROM ClientBankAccountEntity c WHERE c.transaction_date = :transaction_date")
     ClientBankAccountEntity findByTransactionDate(@Param("transaction_date") String transaction_date);
 
+    @Query("SELECT c FROM ClientBankAccountEntity c WHERE c.account_opening = :account_opening")
+    ClientBankAccountEntity findByAccountOpening(@Param("account_opening") String account_opening);
+
     @Query("SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END FROM ClientBankAccountEntity c WHERE c.client_id = :client_id")
     boolean existsByClientId(Long client_id);
 
     @Query("SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END FROM ClientBankAccountEntity c WHERE c.bank_name = :bank_name")
     boolean existsByBankName(String bank_name);
+
+
 
 
 

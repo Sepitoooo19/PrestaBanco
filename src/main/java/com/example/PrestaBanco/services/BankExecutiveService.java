@@ -1,9 +1,12 @@
 package com.example.PrestaBanco.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import com.example.PrestaBanco.repositories.ClientRepository;
 import com.example.PrestaBanco.entities.ClientEntity;
+
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import com.example.PrestaBanco.repositories.BanExecutiveRepository;
 import com.example.PrestaBanco.entities.BankExecutiveEntity;
@@ -315,7 +318,118 @@ public class BankExecutiveService {
         }
     }
 
-    
+    public boolean verifyBalanceAndAccountAge(String rut) {
+        // Obtener todas las cuentas bancarias del cliente
+        ClientEntity client = clientRepository.findByRut(rut);
+        long clientId = client.getClient_id();
+        List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(clientId);
+        double loanAmount = getMonthlyLoanOfClientByRut(rut);
+
+        // Verificar si hay cuentas bancarias
+        if (clientBankAccounts.isEmpty()) {
+            return false; // No hay cuentas bancarias para este cliente
+        }
+
+        // Obtener la fecha actual
+        LocalDate now = LocalDate.now();
+
+        // Variables para almacenar el saldo total y la antigüedad mínima de las cuentas
+        double totalBalance = 0;
+        boolean isOlderThanTwoYears = false;
+
+        // Recorrer todas las cuentas bancarias del cliente
+        for (ClientBankAccountEntity account : clientBankAccounts) {
+            // Sumar el saldo de la cuenta
+            totalBalance += account.getAmount();
+
+            // Calcular la antigüedad de la cuenta
+            LocalDate accountOpeningDate = account.getAccount_opening();
+            long yearsWithAccount = ChronoUnit.YEARS.between(accountOpeningDate, now);
+
+            // Verificar si alguna cuenta tiene 2 años o más
+            if (yearsWithAccount >= 2) {
+                isOlderThanTwoYears = true;
+            }
+        }
+
+        // Aplicar la regla según la antigüedad de la cuenta
+        double requiredBalance;
+        if (isOlderThanTwoYears) {
+            // Si la cuenta tiene 2 años o más, se requiere el 10% del monto del préstamo
+            requiredBalance = loanAmount * 0.10;
+        } else {
+            // Si la cuenta tiene menos de 2 años, se requiere el 20% del monto del préstamo
+            requiredBalance = loanAmount * 0.20;
+        }
+
+        // Verificar si el saldo total cumple con el saldo requerido
+        return totalBalance >= requiredBalance;
+    }
+
+    public boolean checkRecentWithdrawalsByRut(String rut) {
+        // Obtener el cliente por su rut
+        ClientEntity client = clientRepository.findByRut(rut);
+        List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(client.getClient_id());
+
+        // Fecha actual y hace 6 meses
+        LocalDate now = LocalDate.now();
+        LocalDate sixMonthsAgo = now.minusMonths(6);
+
+        // Bandera para determinar si se ha hecho un retiro grande
+        boolean hasLargeWithdrawals = false;
+
+        // Recorremos todas las transacciones de las cuentas del cliente
+        for (ClientBankAccountEntity account : clientBankAccounts) {
+            // Verificamos si es un retiro
+            if (account.getTransaction().equalsIgnoreCase("withdrawal")) {
+                // Verificamos si la transacción está dentro de los últimos 6 meses
+                LocalDate transactionDate = account.getTransaction_date();
+                if ((transactionDate.isAfter(sixMonthsAgo) || transactionDate.isEqual(sixMonthsAgo))
+                        && transactionDate.isBefore(now.plusDays(1))) {
+                    // Si el retiro es mayor al 30% del saldo en la cuenta
+                    if (account.getAmount() > account.getAmount() * 0.30) {
+                        hasLargeWithdrawals = true;
+                        break;  // No necesitamos revisar más, ya cumplió la condición
+                    }
+                }
+            }
+        }
+
+        return hasLargeWithdrawals; // Retorna true si hubo un retiro mayor al 30% del saldo
+    }
+
+    public int checkResultsEvaluationByRut(String rut){
+
+        int results = 0;
+
+
+        if(isBankAccountBalanceTenPercentageOfMonthlyFeeByRut(rut)){
+            results += 1;
+        }
+
+        if(isBankAccountConsistentByRut(rut)){
+            results += 1;
+        }
+
+        if(containsBankAccountPeriodicDepositsByRut(rut)){
+            results += 1;
+        }
+
+        if(verifyBalanceAndAccountAge(rut)){
+            results += 1;
+        }
+
+        if (!checkRecentWithdrawalsByRut(rut)){
+            results += 1;
+        }
+
+        return results;
+
+
+    }
+
+
+
 
 
 

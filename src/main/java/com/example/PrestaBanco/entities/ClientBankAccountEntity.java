@@ -40,5 +40,8 @@ public class ClientBankAccountEntity {
     @Column(name = "transaction_date")
     private LocalDate  transaction_date;
 
+    @Column(name = "account_opening")
+    private LocalDate account_opening;
+
 
 }

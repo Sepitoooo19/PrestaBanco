@@ -182,6 +182,52 @@ public class BankExecutiveController {
         }
     }
 
+    @GetMapping("/{rut}/jobSeniority-amountRatio")
+    public ResponseEntity<String> checkJobSeniorityAmountRatio(@PathVariable String rut) {
+        // Verificar si la cuenta bancaria es consistente según el RUT proporcionado
+        boolean isConsistent = bankExecutiveService.isBankAccountConsistentByRut(rut);
+
+        // Retornar respuesta según la consistencia de la cuenta bancaria
+        if (isConsistent) {
+            return ResponseEntity.ok("El cliente cumple con la relación de antigüedad laboral y monto de ingreso."); // Respuesta positiva
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("El cliente no cumple con la relación de antigüedad laboral y monto de ingreso."); // Respuesta negativa
+        }
+    }
+
+    @GetMapping("/check-large-withdrawals/{rut}")
+    public ResponseEntity<String> checkLargeWithdrawals(@PathVariable String rut) {
+        boolean hasLargeWithdrawals = bankExecutiveService.checkRecentWithdrawalsByRut(rut);
+
+        if (hasLargeWithdrawals) {
+            return ResponseEntity.ok("El cliente ha realizado un retiro superior al 30% del saldo en los últimos 6 meses.");
+        } else {
+            return ResponseEntity.ok("El cliente no ha realizado retiros significativos en los últimos 6 meses.");
+        }
+    }
+
+    @GetMapping("/evaluate/{rut}")
+    public ResponseEntity<String> evaluateClient(@PathVariable String rut) {
+        int result = bankExecutiveService.checkResultsEvaluationByRut(rut);
+
+        String evaluationStatus;
+
+        // Aprobación: Cumple con las 5 reglas
+        if (result == 5) {
+            evaluationStatus = "La capacidad de ahorro es sólida. Se puede continuar con la evaluación del crédito.";
+        }
+        // Revisión Adicional: Cumple con 3 o 4 reglas
+        else if (result >= 3 && result < 5) {
+            evaluationStatus = "La capacidad de ahorro es moderada. Se requiere una revisión adicional.";
+        }
+        // Rechazo: Cumple con menos de 2 reglas
+        else {
+            evaluationStatus = "La capacidad de ahorro es insuficiente. Se procede a rechazar la solicitud.";
+        }
+
+        return ResponseEntity.ok(evaluationStatus);
+    }
 
 
 
