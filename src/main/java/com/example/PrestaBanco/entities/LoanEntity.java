@@ -45,4 +45,7 @@ public class LoanEntity {
     @Column(name = "max_financing_amount")
     private double max_financing_amount;
 
+    @Column(name = "credit_application_id")
+    private Long credit_application_id;
+
 }

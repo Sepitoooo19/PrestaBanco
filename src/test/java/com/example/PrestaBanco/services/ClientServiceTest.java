@@ -306,4 +306,212 @@ public class ClientServiceTest {
         // then
         assertThat(exists).isFalse();
     }
+
+    @Test
+    public void whenFindByIndependentActivity_thenReturnClient() {
+        // given
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", true, 5, "Developer", 1, 0);
+        given(clientRepository.findByIndependentActivity(true)).willReturn(client);
+
+        // when
+        ClientEntity foundClient = clientService.findByIndependentActivity(true);
+
+        // then
+        assertThat(foundClient).isNotNull();
+        assertThat(foundClient.isIndependent_activity()).isTrue();
+    }
+
+    @Test
+    public void whenFindByIndependentActivityNotExists_thenReturnNull() {
+        // given
+        given(clientRepository.findByIndependentActivity(true)).willReturn(null);
+
+        // when
+        ClientEntity foundClient = clientService.findByIndependentActivity(true);
+
+        // then
+        assertThat(foundClient).isNull();
+    }
+
+    @Test
+    public void whenFindByAge_thenReturnClient() {
+        // given
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        given(clientRepository.findByAge(30)).willReturn(client);
+
+        // when
+        ClientEntity foundClient = clientService.findByAge(30);
+
+        // then
+        assertThat(foundClient).isNotNull();
+        assertThat(foundClient.getAge()).isEqualTo(30);
+    }
+
+    @Test
+    public void whenFindByAgeNotExists_thenReturnNull() {
+        // given
+        given(clientRepository.findByAge(40)).willReturn(null);
+
+        // when
+        ClientEntity foundClient = clientService.findByAge(40);
+
+        // then
+        assertThat(foundClient).isNull();
+    }
+
+    @Test
+    public void whenFindByMonthlySalary_thenReturnClient() {
+        // given
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        given(clientRepository.findByMonthlySalary(50000.0)).willReturn(client);
+
+        // when
+        ClientEntity foundClient = clientService.findByMonthlySalary(50000.0);
+
+        // then
+        assertThat(foundClient).isNotNull();
+        assertThat(foundClient.getMonthly_salary()).isEqualTo(50000.0);
+    }
+
+    @Test
+    public void whenFindByMonthlySalaryNotExists_thenReturnNull() {
+        // given
+        given(clientRepository.findByMonthlySalary(60000.0)).willReturn(null);
+
+        // when
+        ClientEntity foundClient = clientService.findByMonthlySalary(60000.0);
+
+        // then
+        assertThat(foundClient).isNull();
+    }
+
+    @Test
+    public void whenFindByPersonalSavings_thenReturnClient() {
+        // given
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        given(clientRepository.findByPersonalSavings(10000.0)).willReturn(client);
+
+        // when
+        ClientEntity foundClient = clientService.findByPersonalSavings(10000.0);
+
+        // then
+        assertThat(foundClient).isNotNull();
+        assertThat(foundClient.getPersonal_savings()).isEqualTo(10000.0);
+    }
+
+    @Test
+    public void whenFindByPersonalSavingsNotExists_thenReturnNull() {
+        // given
+        given(clientRepository.findByPersonalSavings(20000.0)).willReturn(null);
+
+        // when
+        ClientEntity foundClient = clientService.findByPersonalSavings(20000.0);
+
+        // then
+        assertThat(foundClient).isNull();
+    }
+
+    @Test
+    public void whenFindByExpectedAmount_thenReturnClient() {
+        // given
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        given(clientRepository.findByExpectedAmount(50000.0)).willReturn(client);
+
+        // when
+        ClientEntity foundClient = clientService.findByExpectedAmount(50000.0);
+
+        // then
+        assertThat(foundClient).isNotNull();
+        assertThat(foundClient.getExpected_amount()).isEqualTo(50000.0);
+    }
+
+    @Test
+    public void whenFindByExpectedAmountNotExists_thenReturnNull() {
+        // given
+        given(clientRepository.findByExpectedAmount(70000.0)).willReturn(null);
+
+        // when
+        ClientEntity foundClient = clientService.findByExpectedAmount(70000.0);
+
+        // then
+        assertThat(foundClient).isNull();
+    }
+
+    @Test
+    public void whenFindByTimeLimit_thenReturnClient() {
+        // given
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        given(clientRepository.findByTimeLimit(12)).willReturn(client);
+
+        // when
+        ClientEntity foundClient = clientService.findByTimeLimit(12);
+
+        // then
+        assertThat(foundClient).isNotNull();
+        assertThat(foundClient.getTime_limit()).isEqualTo(12);
+    }
+
+    @Test
+    public void whenFindByTimeLimitNotExists_thenReturnNull() {
+        // given
+        given(clientRepository.findByTimeLimit(24)).willReturn(null);
+
+        // when
+        ClientEntity foundClient = clientService.findByTimeLimit(24);
+
+        // then
+        assertThat(foundClient).isNull();
+    }
+
+    @Test
+    public void whenFindByInterestRate_thenReturnClient() {
+        // given
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        given(clientRepository.findByInterestRate(2.5)).willReturn(client);
+
+        // when
+        ClientEntity foundClient = clientService.findByInterestRate(2.5);
+
+        // then
+        assertThat(foundClient).isNotNull();
+        assertThat(foundClient.getInterest_rate()).isEqualTo(2.5);
+    }
+
+    @Test
+    public void whenFindByInterestRateNotExists_thenReturnNull() {
+        // given
+        given(clientRepository.findByInterestRate(5.0)).willReturn(null);
+
+        // when
+        ClientEntity foundClient = clientService.findByInterestRate(5.0);
+
+        // then
+        assertThat(foundClient).isNull();
+    }
+
+    @Test
+    public void whenFindByTypeLoan_thenReturnClient() {
+        // given
+        ClientEntity client = new ClientEntity(null, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer", 2, 1);
+        given(clientRepository.findByTypeLoan("Mortgage")).willReturn(client);
+
+        // when
+        ClientEntity foundClient = clientService.findByTypeLoan("Mortgage");
+
+        // then
+        assertThat(foundClient).isNotNull();
+        assertThat(foundClient.getType_loan()).isEqualTo("Mortgage");
+    }
+
+    @Test
+    public void whenFindByTypeLoanNotExists_thenReturnNull() {
+        // given
+        given(clientRepository.findByTypeLoan("Nonexistent Loan")).willReturn(null);
+
+        // when
+        ClientEntity foundClient = clientService.findByTypeLoan("Nonexistent Loan");
+
+        // then
+        assertThat(foundClient).isNull();
+    }
 }
