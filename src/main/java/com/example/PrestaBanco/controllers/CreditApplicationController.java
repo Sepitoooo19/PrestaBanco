@@ -1,5 +1,6 @@
 package com.example.PrestaBanco.controllers;
 import ch.qos.logback.core.net.server.Client;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import com.example.PrestaBanco.entities.CreditApplicationEntity;
 import com.example.PrestaBanco.services.CreditApplicationService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/credit_application")
@@ -57,10 +59,37 @@ public class CreditApplicationController {
         return ResponseEntity.ok(creditApplicationService.findByDocument4(document_4));
     }
 
+    @GetMapping("/status/{status}")
+    public ResponseEntity<CreditApplicationEntity> findByStatus(@PathVariable String status) {
+        return ResponseEntity.ok(creditApplicationService.findByStatus(status));
+    }
+
     @GetMapping("/exists/client_id/{client_id}")
     public ResponseEntity<Boolean> existsByClientId(@PathVariable Long client_id) {
         return ResponseEntity.ok(creditApplicationService.existsByClientId(client_id));
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<CreditApplicationEntity> createCreditApplication(
+            @RequestBody Map<String, String> requestBody) {
+
+        String rut = requestBody.get("rut");
+        String loan_type = requestBody.get("loan_type");
+
+        System.out.println("Tipo de préstamo recibido: " + loan_type);
+
+        // Llamada al servicio para crear la solicitud de crédito
+        try {
+            CreditApplicationEntity createdApplication = creditApplicationService.createCreditApplicationByRut(rut, loan_type);
+            // Retorna la solicitud de crédito creada con el estado HTTP 201 (Created)
+            return new ResponseEntity<>(createdApplication, HttpStatus.CREATED);
+        } catch (EntityNotFoundException e) {
+            // Manejar el caso donde no se encuentra el cliente con el rut dado
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            // Manejar otros errores
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 }

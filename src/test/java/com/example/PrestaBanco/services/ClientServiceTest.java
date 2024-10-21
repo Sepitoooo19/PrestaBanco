@@ -2,11 +2,19 @@ package com.example.PrestaBanco.services;
 
 import com.example.PrestaBanco.entities.ClientEntity;
 import com.example.PrestaBanco.repositories.ClientRepository;
+import com.example.PrestaBanco.repositories.CreditApplicationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import com.example.PrestaBanco.entities.CreditApplicationEntity;
+import com.example.PrestaBanco.entities.LoanEntity;
+import com.example.PrestaBanco.repositories.LoanRepository;
+
+
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,6 +32,16 @@ public class ClientServiceTest {
 
     @Mock
     private ClientRepository clientRepository;
+
+
+    @Mock
+    private CreditApplicationRepository creditApplicationRepository;
+
+
+    @Mock
+    private LoanRepository loanRepository;
+
+
 
     @BeforeEach
     public void setUp() {
@@ -514,4 +532,6 @@ public class ClientServiceTest {
         // then
         assertThat(foundClient).isNull();
     }
+
+
 }

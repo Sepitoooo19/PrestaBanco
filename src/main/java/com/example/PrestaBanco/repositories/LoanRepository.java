@@ -51,5 +51,7 @@ public interface LoanRepository extends JpaRepository<LoanEntity, Long> {
     @Query("SELECT CASE WHEN COUNT(l) > 0 THEN TRUE ELSE FALSE END FROM LoanEntity l WHERE l.client_id = :client_id")
     boolean existsByClientId(Long client_id);
 
+    @Query("SELECT l FROM LoanEntity l WHERE l.client_id = :client_id AND l.loan_type = :loanType")
+    LoanEntity findByClientIdAndLoanType(Long client_id, String loanType);
 
 }

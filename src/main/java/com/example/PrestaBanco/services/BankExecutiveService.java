@@ -1,5 +1,6 @@
 package com.example.PrestaBanco.services;
 
+import ch.qos.logback.core.net.server.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,8 @@ public class BankExecutiveService {
 
     @Autowired
     private LoanRepository loanRepository;
+
+    int fireInsurance = 20000;
 
     @Autowired
     private ClientBankAccountRepository clientBankAccountRepository;
@@ -425,6 +428,50 @@ public class BankExecutiveService {
 
         return results;
 
+
+    }
+
+    public int insuranceCalculationByRut(String rut) {
+
+        ClientEntity client = clientRepository.findByRut(rut);
+        double expected_amount = client.getExpected_amount();
+        double credit_life_insurance = 0.0003;
+
+        // Redondear el resultado de la multiplicación
+        int insurance = (int) Math.round(expected_amount * credit_life_insurance);
+        return insurance;
+    }
+
+    public int administrationCommissionByRut(String rut){
+
+        ClientEntity client = clientRepository.findByRut(rut);
+        double expected_amount = client.getExpected_amount();
+        double administration_commission = 0.01;
+
+        int commission = (int) (expected_amount * administration_commission);
+        return commission;
+
+    }
+
+    public int monthlyCostByRut(String rut){
+
+        ClientEntity client = clientRepository.findByRut(rut);
+        int monthly_fee = getMonthlyLoanOfClientByRut(rut);
+        int insurance = insuranceCalculationByRut(rut);
+        int monthlyCostofClient = monthly_fee + insurance + fireInsurance;
+
+        return monthlyCostofClient;
+
+    }
+
+    public int totalCostOfLoanByRut(String rut){
+
+        ClientEntity client = clientRepository.findByRut(rut);
+        int monthlyCostofClient = monthlyCostByRut(rut);
+        int commission = administrationCommissionByRut(rut);
+        int totalCost = (monthlyCostofClient * (client.getTime_limit() * 12)) + commission;
+
+        return totalCost;
 
     }
 

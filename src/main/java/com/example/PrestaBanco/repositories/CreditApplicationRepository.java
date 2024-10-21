@@ -36,6 +36,10 @@ public interface CreditApplicationRepository  extends JpaRepository<CreditApplic
     @Query("SELECT c FROM CreditApplicationEntity c WHERE c.document_4 = :document_4")
     CreditApplicationEntity findByDocument4(@Param("document_4") boolean document_4);
 
+    @Query("SELECT c FROM CreditApplicationEntity c WHERE c.status = :status")
+    CreditApplicationEntity findByStatus(@Param("status") String status);
+
+
     @Query("SELECT CASE WHEN COUNT(c) > 0 THEN TRUE ELSE FALSE END FROM CreditApplicationEntity c WHERE c.client_id = :client_id")
     boolean existsByClientId(Long client_id);
 

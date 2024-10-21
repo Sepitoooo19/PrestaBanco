@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.*;
 import com.example.PrestaBanco.entities.ClientEntity;
 import com.example.PrestaBanco.services.ClientService;
 import java.util.List;
+import com.example.PrestaBanco.entities.CreditApplicationEntity;
+
+
+
 
 @RestController
 @RequestMapping("/api/v1/client")
@@ -91,5 +95,8 @@ public class ClientController {
         ClientEntity newClient(@RequestBody ClientEntity newClient) {
             return clientService.save(newClient);
     }
+
+    // Endpoint para crear una solicitud de crédito usando rut y loan_type
+
 
 }

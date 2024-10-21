@@ -1,5 +1,6 @@
 package com.example.PrestaBanco.controllers;
 import ch.qos.logback.core.net.server.Client;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +9,7 @@ import com.example.PrestaBanco.entities.LoanEntity;
 import com.example.PrestaBanco.services.LoanService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/loan")
@@ -75,5 +77,27 @@ public class LoanController {
     @GetMapping("/credit_application_id/{credit_application_id}")
     public ResponseEntity<LoanEntity> findByCreditApplicationId(@PathVariable Long credit_application_id) {
         return ResponseEntity.ok(loanService.findByCreditApplicationId(credit_application_id));
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<LoanEntity> createLoan(@RequestBody LoanEntity loan) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(loanService.save(loan));
+    }
+
+    @PostMapping("/create_loans_by_rut")
+    public ResponseEntity<List<LoanEntity>> createLoansByRut(@RequestBody Map<String, String> requestBody) {
+        String rut = requestBody.get("rut");
+
+        try {
+            List<LoanEntity> createdLoans = loanService.setDetailsOfCreditApplicationByRut(rut);
+            if (createdLoans == null || createdLoans.isEmpty()) {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // No se encontraron solicitudes de crédito
+            }
+            return new ResponseEntity<>(createdLoans, HttpStatus.CREATED);  // Retorna todos los préstamos creados
+        } catch (EntityNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);  // No se encontró el cliente
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);  // Maneja otros errores
+        }
     }
 }

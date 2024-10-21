@@ -3,8 +3,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.PrestaBanco.repositories.ClientRepository;
 import com.example.PrestaBanco.entities.ClientEntity;
+
+import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Optional;
+
+
+
 
 
 @Service
@@ -12,6 +17,10 @@ public class ClientService {
 
     @Autowired
     private ClientRepository clientRepository;
+
+
+
+
 
     public List<ClientEntity> findAll() {
         return clientRepository.findAll();

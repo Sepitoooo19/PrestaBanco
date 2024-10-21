@@ -40,6 +40,9 @@ public class CreditApplicationEntity {
     @Column(name = "document_4")
     private boolean document_4;
 
+    @Column(name = "status")
+    private String status;
+
 
 
 
