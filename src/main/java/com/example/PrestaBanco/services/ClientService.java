@@ -27,11 +27,17 @@ public class ClientService {
     }
 
     public ClientEntity findByRut(String rut) {
-        return clientRepository.findByRut(rut);
+        if(rut == null){
+            return null;
+        }
+        return clientRepository.findByRut(rut.trim().toLowerCase());
     }
 
     public ClientEntity findByEmail(String email) {
-        return clientRepository.findByEmail(email);
+        if(email == null){
+            return null;
+        }
+        return clientRepository.findByEmail(email.trim().toLowerCase());
     }
 
     public ClientEntity findByClientId(Long client_id) {
@@ -39,19 +45,29 @@ public class ClientService {
     }
 
     public ClientEntity findByName(String name) {
-        return clientRepository.findByName(name);
+        if (name == null) {
+            return null;
+        }
+        return clientRepository.findByName(name.trim().toLowerCase());
     }
-
     public ClientEntity findByPhone(String phone) {
-        return clientRepository.findByPhone(phone);
+        if (phone == null || phone.trim().isEmpty()) {
+            return null;
+        }
+        return clientRepository.findByPhone(phone.trim());
     }
 
     public ClientEntity findByJobType(String job_type) {
-        return clientRepository.findByJobType(job_type);
+        if (job_type == null || job_type.trim().isEmpty()) {
+            return null;
+        }
+        return clientRepository.findByJobType(job_type.trim());
     }
-
     public ClientEntity findByTypeLoan(String type_loan) {
-        return clientRepository.findByTypeLoan(type_loan);
+        if (type_loan == null || type_loan.trim().isEmpty()) {
+            return null;
+        }
+        return clientRepository.findByTypeLoan(type_loan.trim());
     }
 
     public ClientEntity findByIndependentActivity(boolean independent_activity) {
@@ -59,9 +75,11 @@ public class ClientService {
     }
 
     public ClientEntity findByAge(int age) {
+        if (age < 0) {
+            return null; // Retornar null si la edad es negativa
+        }
         return clientRepository.findByAge(age);
     }
-
     public ClientEntity findByMonthlySalary(double monthly_salary) {
         return clientRepository.findByMonthlySalary(monthly_salary);
     }
