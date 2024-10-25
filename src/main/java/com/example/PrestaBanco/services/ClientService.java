@@ -18,10 +18,6 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
 
-
-
-
-
     public List<ClientEntity> findAll() {
         return clientRepository.findAll();
     }
@@ -81,22 +77,38 @@ public class ClientService {
         return clientRepository.findByAge(age);
     }
     public ClientEntity findByMonthlySalary(double monthly_salary) {
+        if (monthly_salary < 0) {
+            return null; // Retornar null si el salario es negativo
+        }
         return clientRepository.findByMonthlySalary(monthly_salary);
     }
 
     public ClientEntity findByPersonalSavings(Double personal_savings) {
+        if (personal_savings != null && personal_savings < 0) {
+            return null; // Retornar null si los ahorros son negativos
+        }
         return clientRepository.findByPersonalSavings(personal_savings);
     }
 
+
     public ClientEntity findByExpectedAmount(double expected_amount) {
+        if (expected_amount < 0) {
+            return null; // Retornar null si el monto esperado es negativo
+        }
         return clientRepository.findByExpectedAmount(expected_amount);
     }
 
     public ClientEntity findByTimeLimit(int time_limit) {
+        if (time_limit < 0) {
+            return null; // Retornar null si el límite de tiempo es negativo
+        }
         return clientRepository.findByTimeLimit(time_limit);
     }
 
     public ClientEntity findByInterestRate(double interest_rate) {
+        if (interest_rate < 0) {
+            return null; // Retornar null si la tasa de interés es negativa
+        }
         return clientRepository.findByInterestRate(interest_rate);
     }
 
@@ -106,13 +118,19 @@ public class ClientService {
     }
 
     public void deleteById(Long client_id) {
+        if (client_id == null || client_id <= 0) {
+            // No hacer nada si el ID es null, 0 o negativo
+            return;
+        }
         clientRepository.deleteById(client_id);
     }
-
     public void delete(ClientEntity client) {
+        if (client == null || client.getClient_id() == null) {
+            // No hacer nada si el cliente o su ID es nulo
+            return;
+        }
         clientRepository.delete(client);
     }
-
     public void deleteAll() {
         clientRepository.deleteAll();
     }
