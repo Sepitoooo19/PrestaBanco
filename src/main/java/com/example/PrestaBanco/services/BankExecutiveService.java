@@ -1,6 +1,7 @@
 package com.example.PrestaBanco.services;
 
 import ch.qos.logback.core.net.server.Client;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
@@ -21,9 +22,11 @@ import com.example.PrestaBanco.entities.LoanEntity;
 import com.example.PrestaBanco.repositories.LoanRepository;
 import com.example.PrestaBanco.entities.ClientBankAccountEntity;
 import com.example.PrestaBanco.repositories.ClientBankAccountRepository;
+import com.example.PrestaBanco.repositories.DocumentRepository;
+import com.example.PrestaBanco.entities.DocumentEntity;
 import java.util.Arrays;
 import java.time.LocalDate;
-
+import java.util.Optional;
 
 
 @Service
@@ -46,6 +49,9 @@ public class BankExecutiveService {
 
     @Autowired
     private LoanRepository loanRepository;
+
+    @Autowired
+    private DocumentRepository documentRepository;
 
     int fireInsurance = 20000;
 
@@ -113,11 +119,22 @@ public class BankExecutiveService {
 
     public double getFeeIncomeRatioByRut(String rut) {
         ClientEntity client = clientRepository.findByRut(rut);
+
+        // Verifica que el cliente no sea nulo
+        if (client == null) {
+            throw new RuntimeException("Cliente no encontrado");
+        }
+
         double monthly_salary = client.getMonthly_salary();
         double monthly_fee = getMonthlyLoanOfClientByRut(rut);
-        return (monthly_salary/ monthly_fee)* 100;
-    }
+        double feeIncomeRatio = (monthly_salary / monthly_fee) * 100;
 
+        if (feeIncomeRatio > 35) {
+            System.out.println("El ratio de ingresos supera el 35%: " + feeIncomeRatio + "%");
+        }
+
+        return feeIncomeRatio;
+    }
 
 
     public double getDebtAmountByRut(String rut) {
@@ -138,6 +155,10 @@ public class BankExecutiveService {
 
     public List<DebtEntity> getDebtsByRut(String rut) {
         ClientEntity client = clientRepository.findByRut(rut);
+        if (client == null) {
+            throw new EntityNotFoundException("Cliente no encontrado para el RUT: " + rut);
+        }
+        // Código para obtener las deudas basándose en el `client_id` del cliente encontrado
         return debtRepository.findByClientId(client.getClient_id());
     }
 
@@ -464,7 +485,7 @@ public class BankExecutiveService {
 
     }
 
-    public int totalCostOfLoanByRut(String rut){
+    public int totalCostOfLoanByRut(String rut) {
 
         ClientEntity client = clientRepository.findByRut(rut);
         int monthlyCostofClient = monthlyCostByRut(rut);
@@ -472,20 +493,7 @@ public class BankExecutiveService {
         int totalCost = (monthlyCostofClient * (client.getTime_limit() * 12)) + commission;
 
         return totalCost;
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

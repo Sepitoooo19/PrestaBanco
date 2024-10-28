@@ -94,9 +94,28 @@ public class ClientController {
         @PostMapping("/new")
         ClientEntity newClient(@RequestBody ClientEntity newClient) {
             return clientService.save(newClient);
+
+
     }
 
-    // Endpoint para crear una solicitud de crédito usando rut y loan_type
+    @PutMapping("/clients/{rut}")
+    public ResponseEntity<ClientEntity> updateClientByRut(@PathVariable String rut, @RequestBody ClientEntity updatedClient) {
+        ClientEntity client = clientService.updateClientByRut(rut, updatedClient);
+        if (client == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(client);
+    }
+
+    @GetMapping("/rut/{rut}")
+    public ResponseEntity<ClientEntity> getClientByRut(@PathVariable String rut) {
+        ClientEntity client = clientService.findByRut(rut);
+        if (client == null) {
+            return ResponseEntity.notFound().build(); // Retorna 404 si el cliente no existe
+        }
+        return ResponseEntity.ok(client);
+    }
+
 
 
 }

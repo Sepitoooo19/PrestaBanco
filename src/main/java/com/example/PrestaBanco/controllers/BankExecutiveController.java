@@ -16,6 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/executives")
+@CrossOrigin("*")
 public class BankExecutiveController {
 
     @Autowired
@@ -23,6 +24,8 @@ public class BankExecutiveController {
 
     @Autowired
     private ClientService clientService;
+
+
 
     @GetMapping
     public List<ClientEntity> getAllClients() {
@@ -77,9 +80,17 @@ public class BankExecutiveController {
     }
 
     @GetMapping("/{rut}/fee-income")
-    public ResponseEntity<Double> getFeeIncomeOfClientByRut(@PathVariable String rut) {
-        double feeIncome = bankExecutiveService.getFeeIncomeRatioByRut(rut);
-        return new ResponseEntity<>(feeIncome, HttpStatus.OK);
+    public ResponseEntity<String> getFeeIncomeOfClientByRut(@PathVariable String rut) {
+        double feeIncomeRatio = bankExecutiveService.getFeeIncomeRatioByRut(rut);
+
+        String message;
+        if (feeIncomeRatio > 35) {
+            message = "La solicitud ha sido rechazada: la relación cuota/ingreso es " + feeIncomeRatio + "%, que supera el límite permitido del 35%.";
+        } else {
+            message = "La solicitud está dentro del límite y será considerada para aprobación. Relación cuota/ingreso: " + feeIncomeRatio + "%.";
+        }
+
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
     @GetMapping("/{rut}/debt-amount")
@@ -259,7 +270,6 @@ public class BankExecutiveController {
         int monthlyCost = bankExecutiveService.monthlyCostByRut(rut);
         return ResponseEntity.ok(monthlyCost);
     }
-
 
 
 

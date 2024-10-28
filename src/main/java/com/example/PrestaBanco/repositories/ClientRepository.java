@@ -7,8 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import com.example.PrestaBanco.entities.ClientEntity;
 
+import java.util.List;
+
 @Repository
 public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
+
+    //obtener todos los clientes
+    @Query("SELECT c FROM ClientEntity c")
+    public List<ClientEntity> findAll();
 
     public ClientEntity findByRut(String email);
 

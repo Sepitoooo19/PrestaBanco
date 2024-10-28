@@ -3,6 +3,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.PrestaBanco.repositories.ClientRepository;
 import com.example.PrestaBanco.entities.ClientEntity;
+import com.example.PrestaBanco.repositories.DocumentRepository;
+import com.example.PrestaBanco.entities.DocumentEntity;
+
 
 import java.sql.SQLOutput;
 import java.util.List;
@@ -142,6 +145,34 @@ public class ClientService {
     public boolean existsByRut(String rut) {
         return clientRepository.existsByRut(rut);
     }
+
+    public ClientEntity updateClientByRut(String rut, ClientEntity updatedClient) {
+        ClientEntity existingClient = clientRepository.findByRut(rut);
+        if (existingClient == null) {
+            return null; // Si no existe un cliente con ese RUT, retornar null
+        }
+
+        // Actualiza los campos deseados del cliente existente
+        existingClient.setName(updatedClient.getName());
+        existingClient.setEmail(updatedClient.getEmail());
+        existingClient.setPhone(updatedClient.getPhone());
+        existingClient.setAge(updatedClient.getAge());
+        existingClient.setMonthly_salary(updatedClient.getMonthly_salary());
+        existingClient.setPersonal_savings(updatedClient.getPersonal_savings());
+        existingClient.setJob_type(updatedClient.getJob_type());
+        existingClient.setExpected_amount(updatedClient.getExpected_amount());
+        existingClient.setTime_limit(updatedClient.getTime_limit());
+        existingClient.setInterest_rate(updatedClient.getInterest_rate());
+        existingClient.setType_loan(updatedClient.getType_loan());
+        existingClient.setIndependent_activity(updatedClient.isIndependent_activity());
+        existingClient.setJob_seniority(updatedClient.getJob_seniority());
+        existingClient.setActual_job(updatedClient.getActual_job());
+
+        return clientRepository.save(existingClient);
+    }
+
+
+
 
 
 }

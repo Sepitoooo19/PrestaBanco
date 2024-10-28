@@ -65,10 +65,4 @@ public class ClientEntity {
     @Column(name = "actual_job")
     private String actual_job;
 
-    @Column(name = "number_of_jobs")
-    private int number_of_jobs;
-
-    @Column(name = "number_of_debts")
-    private int number_of_debts;
-
 }
