@@ -92,8 +92,5 @@ public class DocumentController {
         List<DocumentEntity> documents = documentService.findByClientId(client.getClient_id());
         return ResponseEntity.ok(documents);
     }
-
-
-
 }
 

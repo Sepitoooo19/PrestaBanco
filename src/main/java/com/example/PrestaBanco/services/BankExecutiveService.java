@@ -86,6 +86,7 @@ public class BankExecutiveService {
         return bankExecutiveRepository.existsByRut(rut);
     }
 
+
     public double getExpectedAmountOfClientByRut(String rut) {
         ClientEntity client = clientRepository.findByRut(rut);
         return client.getExpected_amount();
@@ -213,15 +214,21 @@ public class BankExecutiveService {
     public boolean getAgeAndVerifyMaximumAgeByRut(String rut) {
         ClientEntity client = clientRepository.findByRut(rut);
         int age = client.getAge();
-
+        int loanTerm = client.getTime_limit(); // Suponiendo que el atributo se llama getLoanTerm()
+        int finalAge = age + loanTerm; // Edad del cliente al finalizar el préstamo
 
         // Si la edad actual es menor de 18, no se puede otorgar el préstamo
         if (age < 18) {
             return false;
         }
 
+        // Si la edad final al finalizar el préstamo es mayor o igual a 75 años
+        if (finalAge >= 75) {
+            return false;
+        }
+
         // Si el cliente tiene 5 años o menos antes de alcanzar los 75 años al final del préstamo, se rechaza
-        if (75 - age < 5) {
+        if (75 - finalAge < 5) {
             return false;
         }
 
@@ -232,60 +239,84 @@ public class BankExecutiveService {
 
 
     public boolean isBankAccountBalanceTenPercentageOfMonthlyFeeByRut(String rut) {
-
         ClientEntity client = clientRepository.findByRut(rut);
         List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(client.getClient_id());
         double monthly_fee = getMonthlyLoanOfClientByRut(rut);
-        int deposit = 0;
+        int totalDeposit = 0;
+
+        // Calcular el total de depósitos
         for (ClientBankAccountEntity clientBankAccount : clientBankAccounts) {
             if (clientBankAccount.getTransaction().equals("deposit")) {
-                deposit += clientBankAccount.getAmount();
+                totalDeposit += clientBankAccount.getAmount();
             }
         }
-        if (deposit >= monthly_fee * 0.1) {
-            return true;
-        } else {
-            return false;
-        }
 
+        double requiredMinimumBalance = monthly_fee * 0.1;
+
+        // Evaluar si el saldo cumple con el mínimo requerido
+        if (totalDeposit >= requiredMinimumBalance) {
+            return true; // Cumple con el requisito
+        } else {
+            System.out.println("Saldo insuficiente: El saldo es inferior al 10% del monto del préstamo solicitado.");
+            return false; // No cumple con el requisito
+        }
+    }
+
+    private boolean isWithinLast12Months(LocalDate transactionDate) {
+        LocalDate twelveMonthsAgo = LocalDate.now().minusMonths(12);
+        return !transactionDate.isBefore(twelveMonthsAgo);
     }
 
     public boolean isBankAccountConsistentByRut(String rut) {
         ClientEntity client = clientRepository.findByRut(rut);
         List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(client.getClient_id());
-        int deposit = 0;
-        int withdrawal = 0;
+
+        // Variables para el cálculo del saldo y retiros
+        int totalDeposits = 0;
+        int totalWithdrawals = 0;
+        int totalBalance = 0;
+        int monthCount = 0;
+
+        // Revisar el historial de cuentas de los últimos 12 meses
         for (ClientBankAccountEntity clientBankAccount : clientBankAccounts) {
-            if(clientBankAccount.getAmount() == 0){
-                return false;
+            if (clientBankAccount.getTransaction().equals("deposit")) {
+                totalDeposits += clientBankAccount.getAmount();
+            } else {
+                totalWithdrawals += clientBankAccount.getAmount();
             }
-            else{
-                if (clientBankAccount.getTransaction().equals("deposit")) {
-                    deposit += clientBankAccount.getAmount();
-                } else {
-                    withdrawal += clientBankAccount.getAmount();
-                }
+            // Suponiendo que tienes una forma de verificar la fecha de las transacciones
+            if (isWithinLast12Months(clientBankAccount.getTransaction_date())) {
+                totalBalance += clientBankAccount.getAmount();
+                monthCount++;
             }
         }
-        int total = deposit + withdrawal;
 
+        // Calcular el saldo promedio de los últimos 12 meses
+        if (monthCount == 0 || totalBalance <= 0) {
+            return false; // No hay transacciones o saldo no positivo
+        }
+
+        int averageBalance = totalBalance / monthCount;
+
+        // Verificar si hay retiros significativos
         for (ClientBankAccountEntity clientBankAccount : clientBankAccounts) {
             if (clientBankAccount.getTransaction().equals("withdrawal")) {
-                if (clientBankAccount.getAmount() > total * 0.5) {
-                    return false;
+                if (clientBankAccount.getAmount() > averageBalance * 0.5) {
+                    return false; // Retiro significativo encontrado
                 }
             }
         }
 
-        if ( withdrawal > total * 0.5){
-            return false;
-        } else {
-            return true;
+        // Verificar el total de retiros
+        if (totalWithdrawals > averageBalance * 0.5) {
+            return false; // Total de retiros significativo
         }
+
+        return true; // Consistente si pasa todas las validaciones
     }
 
     public boolean containsBankAccountPeriodicDepositsByRut(String rut) {
-        // Obtener el cliente por su rut
+        // Obtener el cliente por su RUT
         ClientEntity client = clientRepository.findByRut(rut);
         List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(client.getClient_id());
 
@@ -303,7 +334,8 @@ public class BankExecutiveService {
         // Arreglo para marcar si se realizó un depósito en cada mes
         boolean[] monthsWithDeposits = new boolean[12]; // 12 meses
         Arrays.fill(monthsWithDeposits, false);
-        // Recorremos todas las transacciones del cliente
+
+        // Recorremos todas las cuentas del cliente
         for (ClientBankAccountEntity account : clientBankAccounts) {
             // Verificamos si es un depósito
             if (account.getTransaction().equalsIgnoreCase("deposit")) {
@@ -314,6 +346,7 @@ public class BankExecutiveService {
                     // Calcular la diferencia de meses entre la fecha actual y la transacción
                     int monthsDifference = now.getMonthValue() - transactionDate.getMonthValue() +
                             (now.getYear() - transactionDate.getYear()) * 12;
+
                     // Si está dentro de los 12 meses, marcamos el depósito para ese mes
                     if (monthsDifference >= 0 && monthsDifference < 12) {
                         monthsWithDeposits[monthsDifference] = true;
@@ -323,6 +356,7 @@ public class BankExecutiveService {
                 }
             }
         }
+
         // Contar los meses en los que hubo depósitos
         int monthsWithDepositsCount = 0;
         for (boolean hasDeposit : monthsWithDeposits) {
@@ -330,17 +364,17 @@ public class BankExecutiveService {
                 monthsWithDepositsCount++;
             }
         }
+
         // Verificar si hubo depósitos al menos en 4 meses diferentes (frecuencia trimestral)
-        if (monthsWithDepositsCount >= 4) {
+        if (monthsWithDepositsCount >= 4 || (monthsWithDepositsCount >= 1 && totalDeposits >= minimumRequiredDeposit)) {
             hasRegularDeposits = true;
         }
+
         // Verificar si cumple con el monto mínimo de depósitos
-        if (hasRegularDeposits && totalDeposits >= minimumRequiredDeposit) {
-            return true; // Cumple con los requisitos
-        } else {
-            return false; // No cumple
-        }
+        return hasRegularDeposits && totalDeposits >= minimumRequiredDeposit; // Retorna true si cumple, false si no
     }
+
+
 
     public boolean verifyBalanceAndAccountAge(String rut) {
         // Obtener todas las cuentas bancarias del cliente
@@ -359,6 +393,7 @@ public class BankExecutiveService {
 
         // Variables para almacenar el saldo total y la antigüedad mínima de las cuentas
         double totalBalance = 0;
+        boolean hasSufficientBalance = true;
         boolean isOlderThanTwoYears = false;
 
         // Recorrer todas las cuentas bancarias del cliente
@@ -376,7 +411,7 @@ public class BankExecutiveService {
             }
         }
 
-        // Aplicar la regla según la antigüedad de la cuenta
+        // Determinar el porcentaje requerido según la antigüedad de la cuenta
         double requiredBalance;
         if (isOlderThanTwoYears) {
             // Si la cuenta tiene 2 años o más, se requiere el 10% del monto del préstamo
@@ -389,6 +424,7 @@ public class BankExecutiveService {
         // Verificar si el saldo total cumple con el saldo requerido
         return totalBalance >= requiredBalance;
     }
+
 
     public boolean checkRecentWithdrawalsByRut(String rut) {
         // Obtener el cliente por su rut
@@ -494,6 +530,69 @@ public class BankExecutiveService {
 
         return totalCost;
     }
+
+    public String  getLoanTypeClientByRut(String rut){
+        ClientEntity client = clientRepository.findByRut(rut);
+        return client.getType_loan();
+    }
+
+    public CreditApplicationEntity getCreditApplicationById(Long credit_application_id) {
+        Optional<CreditApplicationEntity> creditApplication = creditApplicationRepository.findById(credit_application_id);
+        if (creditApplication.isPresent()) {
+            return creditApplication.get();
+        } else {
+            throw new EntityNotFoundException("Solicitud de crédito no encontrada con el ID: " + credit_application_id);
+        }
+    }
+
+    public CreditApplicationEntity updateStatusOfCreditApplication(Long credit_application_id, String status) {
+        // Validaciones
+        if (credit_application_id == null || credit_application_id <= 0) {
+            throw new IllegalArgumentException("Invalid credit application ID");
+        }
+        if (status == null || status.trim().isEmpty()) {
+            throw new IllegalArgumentException("Status cannot be null or empty");
+        }
+
+        CreditApplicationEntity creditApplication = getCreditApplicationById(credit_application_id);
+        if (creditApplication == null) {
+            throw new EntityNotFoundException("Credit application not found with ID: " + credit_application_id);
+        }
+
+        creditApplication.setStatus(status);
+        return creditApplicationRepository.save(creditApplication);
+    }
+
+    public int getPendingDebtsByRut(String rut) {
+        ClientEntity client = clientRepository.findByRut(rut);
+        List<DebtEntity> debts = debtRepository.findByClientId(client.getClient_id());
+        int pendingDebts = 0;
+        for (DebtEntity debt : debts) {
+            if (debt.getDebt_status().equals("pending")) {
+                pendingDebts = (int)debt.getDebt_amount() + pendingDebts;
+            }
+        }
+        return pendingDebts;
+    }
+
+    public double getPendingDebtsMonthlySalaryByRut(String rut) {
+        ClientEntity client = clientRepository.findByRut(rut);
+        List<DebtEntity> debts = debtRepository.findByClientId(client.getClient_id());
+        int monthlye_fee = getMonthlyLoanOfClientByRut(rut);
+
+        double pendingDebts = 0;
+        for (DebtEntity debt : debts) {
+            if (debt.getDebt_status().equals("pending")) {
+                pendingDebts = debt.getDebt_amount() + pendingDebts;
+            }
+        }
+        pendingDebts = pendingDebts + monthlye_fee;
+        double ratio = (pendingDebts / client.getMonthly_salary()) * 100;
+        return ratio;
+    }
+
+
+
 
 
 }

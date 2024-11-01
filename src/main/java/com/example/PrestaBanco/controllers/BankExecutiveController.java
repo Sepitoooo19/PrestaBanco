@@ -145,65 +145,78 @@ public class BankExecutiveController {
         return new ResponseEntity<>(withdrawal, HttpStatus.OK);
     }
 
-    @GetMapping("/validate-age/{rut}")
-    public ResponseEntity<String> validateLoanAge(@PathVariable String rut) {
+    @GetMapping("/{rut}/verify-age")
+    public ResponseEntity<Boolean> verifyClientAge(@PathVariable String rut) {
+        boolean isEligible = bankExecutiveService.getAgeAndVerifyMaximumAgeByRut(rut);
 
-        boolean isValid = bankExecutiveService.getAgeAndVerifyMaximumAgeByRut(rut);
-
-        if (isValid) {
-            return ResponseEntity.ok("El préstamo es válido según la edad del cliente.");
+        if (isEligible) {
+            return ResponseEntity.ok(true); // El cliente es elegible para el préstamo
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El préstamo es rechazado debido a la edad del cliente.");
+            return ResponseEntity.ok(false); // El cliente no es elegible para el préstamo
         }
     }
 
-    @GetMapping("/validate-balance/{rut}")
-    public ResponseEntity<String> validateBankAccountBalance(@PathVariable String rut) {
-        boolean isValid = bankExecutiveService.isBankAccountBalanceTenPercentageOfMonthlyFeeByRut(rut);
+    @GetMapping("/{rut}/check-balance")
+    public ResponseEntity<String> checkAccountBalance(@PathVariable String rut) {
+        try {
+            boolean isBalanceSufficient = bankExecutiveService.isBankAccountBalanceTenPercentageOfMonthlyFeeByRut(rut);
 
-        if (isValid) {
-            return ResponseEntity.ok("El saldo de la cuenta bancaria del cliente es suficiente para cubrir al menos el 10% de la cuota mensual.");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("El saldo de la cuenta bancaria del cliente no es suficiente para cubrir el 10% de la cuota mensual.");
+            if (isBalanceSufficient) {
+                return ResponseEntity.ok("El saldo es suficiente.");
+            } else {
+                return ResponseEntity.ok("El saldo es inferior al 10% del monto del préstamo solicitado.");
+            }
+        } catch (Exception e) {
+            // Manejar la excepción y retornar un mensaje genérico
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se pudo calcular el saldo. Intente nuevamente más tarde.");
         }
     }
 
-    @GetMapping("/validate-bank-consistency/{rut}")
-    public ResponseEntity<String> validateBankAccountConsistency(@PathVariable String rut) {
-        boolean isConsistent = bankExecutiveService.isBankAccountConsistentByRut(rut);
+    @GetMapping("/{rut}/account-consistency")
+    public ResponseEntity<String> checkBankAccountConsistency(@PathVariable String rut) {
+        try {
+            boolean isConsistent = bankExecutiveService.isBankAccountConsistentByRut(rut);
 
-        if (isConsistent) {
-            return ResponseEntity.ok("La cuenta bancaria del cliente es consistente.");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Las cuentas bancarias del cliente no son consistentes.");
+            // Devuelve un mensaje de éxito o inconsistencia
+            if (isConsistent) {
+                return ResponseEntity.ok("La cuenta bancaria es consistente.");
+            } else {
+                return ResponseEntity.ok("La cuenta bancaria no es consistente.");
+            }
+        } catch (Exception e) {
+            // Manejo de errores genérico, puedes personalizarlo según tus necesidades
+            return ResponseEntity.badRequest().body("No se pudo determinar la consistencia de la cuenta bancaria.");
         }
     }
 
-    @GetMapping("/{rut}/periodic-deposits")
+    @GetMapping("/clients/{rut}/periodic-deposits")
     public ResponseEntity<String> checkPeriodicDeposits(@PathVariable String rut) {
-        // Verificar si la cuenta bancaria es consistente según el RUT proporcionado
-        boolean isConsistent = bankExecutiveService.isBankAccountConsistentByRut(rut);
+        try {
+            boolean hasPeriodicDeposits = bankExecutiveService.containsBankAccountPeriodicDepositsByRut(rut);
 
-        // Retornar respuesta según la consistencia de la cuenta bancaria
-        if (isConsistent) {
-            return ResponseEntity.ok("El cliente cumple con los depositos periódicos."); // Respuesta positiva
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("El cliente no cumple con los depositos periódicos."); // Respuesta negativa
+            if (hasPeriodicDeposits) {
+                return ResponseEntity.ok("El cliente cumple con los requisitos de depósitos periódicos.");
+            } else {
+                return ResponseEntity.ok("El cliente no cumple con los requisitos de depósitos periódicos.");
+            }
+        } catch (Exception e) {
+            // Si ocurre una excepción (como cliente no encontrado), retorna un BadRequest
+            return ResponseEntity.badRequest().body("No se pudo verificar la información del cliente: " + e.getMessage());
         }
     }
 
-    @GetMapping("/{rut}/jobSeniority-amountRatio")
-    public ResponseEntity<String> checkJobSeniorityAmountRatio(@PathVariable String rut) {
-        // Verificar si la cuenta bancaria es consistente según el RUT proporcionado
-        boolean isConsistent = bankExecutiveService.isBankAccountConsistentByRut(rut);
+    @GetMapping("/{rut}/verify-balance-and-age")
+    public ResponseEntity<String> verifyBalanceAndAccountAge(@PathVariable String rut) {
+        try {
+            boolean isEligible = bankExecutiveService.verifyBalanceAndAccountAge(rut);
 
-        // Retornar respuesta según la consistencia de la cuenta bancaria
-        if (isConsistent) {
-            return ResponseEntity.ok("El cliente cumple con la relación de antigüedad laboral y monto de ingreso."); // Respuesta positiva
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("El cliente no cumple con la relación de antigüedad laboral y monto de ingreso."); // Respuesta negativa
+            if (isEligible) {
+                return ResponseEntity.ok("El cliente es elegible para el préstamo.");
+            } else {
+                return ResponseEntity.ok("El cliente no es elegible para el préstamo.");
+            }
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("No se pudo verificar la información del cliente: " + e.getMessage());
         }
     }
 
@@ -271,6 +284,53 @@ public class BankExecutiveController {
         return ResponseEntity.ok(monthlyCost);
     }
 
+    @GetMapping("/{rut}/loanType")
+    public String getLoanTypeClientByRut(@PathVariable String rut) {
+        return bankExecutiveService.getLoanTypeClientByRut(rut);
+    }
+
+    @GetMapping("/credit-application/{id}")
+    public ResponseEntity<CreditApplicationEntity> getCreditApplicationById(@PathVariable("id") Long creditApplicationId) {
+        try {
+            CreditApplicationEntity creditApplication = bankExecutiveService.getCreditApplicationById(creditApplicationId);
+            return ResponseEntity.ok(creditApplication);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+    }
+
+    @PutMapping("/{credit_application_id}/status")
+    public ResponseEntity<CreditApplicationEntity> updateCreditApplicationStatus(
+            @PathVariable Long credit_application_id,
+            @RequestBody Map<String, String> requestBody) {
+        // Verificar que el cuerpo de la solicitud contenga el campo "status"
+        String status = requestBody.get("status");
+        if (status == null || status.trim().isEmpty()) {
+            return ResponseEntity.badRequest().body(null);
+        }
+
+        // Llamar al servicio para actualizar el estado
+        try {
+            CreditApplicationEntity updatedCreditApplication = bankExecutiveService.updateStatusOfCreditApplication(credit_application_id, status);
+            return ResponseEntity.ok(updatedCreditApplication);
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(null);
+        }
+    }
+
+    @GetMapping("/{rut}/pending-debts")
+    public ResponseEntity<Integer> getPendingDebtsByRut(@PathVariable String rut) {
+        int pendingDebts = bankExecutiveService.getPendingDebtsByRut(rut);
+        return ResponseEntity.ok(pendingDebts);
+    }
+
+    @GetMapping("/{rut}/pending-debts-salary-ratio")
+    public ResponseEntity<Double> getPendingDebtsMonthlySalaryByRut(@PathVariable String rut) {
+        double ratio = bankExecutiveService.getPendingDebtsMonthlySalaryByRut(rut);
+        return ResponseEntity.ok(ratio);
+    }
 
 
 }

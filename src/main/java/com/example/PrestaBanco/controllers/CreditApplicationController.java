@@ -39,26 +39,6 @@ public class CreditApplicationController {
         return ResponseEntity.ok(creditApplicationService.findByCreditDate(credit_date));
     }
 
-    @GetMapping("/document_1/{document_1}")
-    public ResponseEntity<CreditApplicationEntity> findByDocument1(@PathVariable boolean document_1) {
-        return ResponseEntity.ok(creditApplicationService.findByDocument1(document_1));
-    }
-
-    @GetMapping("/document_2/{document_2}")
-    public ResponseEntity<CreditApplicationEntity> findByDocument2(@PathVariable boolean document_2) {
-        return ResponseEntity.ok(creditApplicationService.findByDocument2(document_2));
-    }
-
-    @GetMapping("/document_3/{document_3}")
-    public ResponseEntity<CreditApplicationEntity> findByDocument3(@PathVariable boolean document_3) {
-        return ResponseEntity.ok(creditApplicationService.findByDocument3(document_3));
-    }
-
-    @GetMapping("/document_4/{document_4}")
-    public ResponseEntity<CreditApplicationEntity> findByDocument4(@PathVariable boolean document_4) {
-        return ResponseEntity.ok(creditApplicationService.findByDocument4(document_4));
-    }
-
     @GetMapping("/status/{status}")
     public ResponseEntity<CreditApplicationEntity> findByStatus(@PathVariable String status) {
         return ResponseEntity.ok(creditApplicationService.findByStatus(status));
@@ -76,6 +56,7 @@ public class CreditApplicationController {
         String rut = requestBody.get("rut");
         String loan_type = requestBody.get("loan_type");
 
+        System.out.println("Cuerpo de la solicitud: " + requestBody);
         System.out.println("Tipo de préstamo recibido: " + loan_type);
 
         // Llamada al servicio para crear la solicitud de crédito

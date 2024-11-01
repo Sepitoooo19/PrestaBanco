@@ -34,8 +34,8 @@ public class ClientServiceTest {
     public void whenFindAll_thenReturnClients() {
         // given
         List<ClientEntity> clients = Arrays.asList(
-                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0),
-                new ClientEntity(null, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer", 2, 1)
+                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer"),
+                new ClientEntity(null, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer")
         );
         given(clientRepository.findAll()).willReturn(clients);
 
@@ -65,7 +65,7 @@ public class ClientServiceTest {
     public void whenFindAll_thenRepositoryMethodCalledOnce() {
         // given
         List<ClientEntity> clients = Arrays.asList(
-                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0)
+                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer")
         );
         given(clientRepository.findAll()).willReturn(clients);
 
@@ -81,7 +81,7 @@ public class ClientServiceTest {
     public void whenFindAll_thenReturnSingleClient() {
         // given
         List<ClientEntity> clients = Arrays.asList(
-                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0)
+                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer")
         );
         given(clientRepository.findAll()).willReturn(clients);
 
@@ -98,8 +98,8 @@ public class ClientServiceTest {
     public void whenFindAll_thenClientsHaveDifferentAges() {
         // given
         List<ClientEntity> clients = Arrays.asList(
-                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0),
-                new ClientEntity(null, "Jane Smith", "98765432-1", "jane@example.com", "987654321", 25, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer", 2, 1)
+                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer"),
+                new ClientEntity(null, "Jane Smith", "98765432-1", "jane@example.com", "987654321", 25, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer")
         );
         given(clientRepository.findAll()).willReturn(clients);
 
@@ -115,8 +115,8 @@ public class ClientServiceTest {
     public void whenFindAll_thenClientsHaveDifferentEmails() {
         // given
         List<ClientEntity> clients = Arrays.asList(
-                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0),
-                new ClientEntity(null, "Jane Smith", "98765432-1", "jane@example.com", "987654321", 25, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer", 2, 1)
+                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer"),
+                new ClientEntity(null, "Jane Smith", "98765432-1", "jane@example.com", "987654321", 25, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer")
         );
         given(clientRepository.findAll()).willReturn(clients);
 
@@ -132,8 +132,8 @@ public class ClientServiceTest {
     public void whenFindAll_thenClientsHaveDifferentIncome() {
         // given
         List<ClientEntity> clients = Arrays.asList(
-                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0),
-                new ClientEntity(null, "Jane Smith", "98765432-1", "jane@example.com", "987654321", 25, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer", 2, 1)
+                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer"),
+                new ClientEntity(null, "Jane Smith", "98765432-1", "jane@example.com", "987654321", 25, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer")
         );
         given(clientRepository.findAll()).willReturn(clients);
 
@@ -148,8 +148,8 @@ public class ClientServiceTest {
     public void whenFindAll_thenClientsHaveDifferentOccupations() {
         // given
         List<ClientEntity> clients = Arrays.asList(
-                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0),
-                new ClientEntity(null, "Jane Smith", "98765432-1", "jane@example.com", "987654321", 25, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer", 2, 1)
+                new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer"),
+                new ClientEntity(null, "Jane Smith", "98765432-1", "jane@example.com", "987654321", 25, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer")
         );
         given(clientRepository.findAll()).willReturn(clients);
 
@@ -165,7 +165,7 @@ public class ClientServiceTest {
     public void whenFindAll_thenClientNameContainsNumber() {
         // given
         List<ClientEntity> clients = Arrays.asList(
-                new ClientEntity(null, "John Doe2", "12345678-9", "john2@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0)
+                new ClientEntity(null, "John Doe2", "12345678-9", "john2@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer")
         );
         given(clientRepository.findAll()).willReturn(clients);
 
@@ -181,7 +181,7 @@ public class ClientServiceTest {
     public void whenFindByRut_thenReturnClient() {
         // given
         String rut = "12345678-9";
-        ClientEntity client = new ClientEntity(null, "John Doe", rut, "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", rut, "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByRut(rut)).willReturn(client);
 
         // when
@@ -238,7 +238,7 @@ public class ClientServiceTest {
     public void whenFindByRut_thenRepositoryMethodCalledOnce() {
         // given
         String rut = "12345678-9";
-        ClientEntity client = new ClientEntity(null, "John Doe", rut, "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", rut, "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByRut(rut)).willReturn(client);
 
         // when
@@ -254,7 +254,7 @@ public class ClientServiceTest {
         // given
         String rutWithSpaces = " 12345678-9 ";
         String rutTrimmed = "12345678-9";
-        ClientEntity client = new ClientEntity(null, "John Doe", rutTrimmed, "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", rutTrimmed, "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByRut(rutTrimmed)).willReturn(client);
 
         // when
@@ -270,7 +270,7 @@ public class ClientServiceTest {
     public void whenFindByRutLowerCase_thenReturnClient() {
         // given
         String rutLowerCase = "12345678-9";
-        ClientEntity client = new ClientEntity(null, "John Doe", rutLowerCase, "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", rutLowerCase, "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByRut(rutLowerCase)).willReturn(client);
 
         // when
@@ -285,7 +285,7 @@ public class ClientServiceTest {
     public void whenFindByEmail_thenReturnClient() {
         // given
         String email = "john@example.com";
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", email, "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", email, "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByEmail(email)).willReturn(client);
 
         // when
@@ -342,7 +342,7 @@ public class ClientServiceTest {
     public void whenFindByEmail_thenRepositoryMethodCalledOnce() {
         // given
         String email = "john@example.com";
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", email, "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", email, "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByEmail(email)).willReturn(client);
 
         // when
@@ -358,7 +358,7 @@ public class ClientServiceTest {
         // given
         String emailWithUpperCase = "JOHN@EXAMPLE.COM";
         String emailLowerCase = "john@example.com";
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", emailLowerCase, "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", emailLowerCase, "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByEmail(emailLowerCase)).willReturn(client);
 
         // when
@@ -375,7 +375,7 @@ public class ClientServiceTest {
         // given
         String emailWithSpaces = " john@example.com ";
         String emailTrimmed = "john@example.com";
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", emailTrimmed, "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", emailTrimmed, "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByEmail(emailTrimmed)).willReturn(client);
 
         // when
@@ -391,7 +391,7 @@ public class ClientServiceTest {
     public void whenFindByClientId_thenReturnClient() {
         // given
         Long clientId = 1L;
-        ClientEntity client = new ClientEntity(clientId, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(clientId, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByClientId(clientId)).willReturn(client);
 
         // when
@@ -448,7 +448,7 @@ public class ClientServiceTest {
     public void whenFindByClientId_thenRepositoryMethodCalledOnce() {
         // given
         Long clientId = 1L;
-        ClientEntity client = new ClientEntity(clientId, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(clientId, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByClientId(clientId)).willReturn(client);
 
         // when
@@ -463,7 +463,7 @@ public class ClientServiceTest {
     public void whenFindByClientIdWithLargeId_thenReturnClient() {
         // given
         Long largeClientId = 100000000L;
-        ClientEntity client = new ClientEntity(largeClientId, "Jane Smith", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer", 2, 1);
+        ClientEntity client = new ClientEntity(largeClientId, "Jane Smith", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer");
         given(clientRepository.findByClientId(largeClientId)).willReturn(client);
 
         // when
@@ -494,7 +494,7 @@ public class ClientServiceTest {
         // given
         String name = "John Doe";
         String normalized = name.toLowerCase();
-        ClientEntity client = new ClientEntity(null, name, "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, name, "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByName(normalized)).willReturn(client);
 
         // when
@@ -552,7 +552,7 @@ public class ClientServiceTest {
         // given
         String name = "John Doe";
         String normalized = name.toLowerCase(); // Se debe comparar con el valor esperado en el repositorio
-        ClientEntity client = new ClientEntity(null, name, "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, name, "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByName(normalized)).willReturn(client);
 
         // when
@@ -568,7 +568,7 @@ public class ClientServiceTest {
         // given
         String nameWithSpaces = " John Doe ";
         String trimmedName = "John Doe";
-        ClientEntity client = new ClientEntity(null, trimmedName, "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, trimmedName, "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByName(trimmedName.toLowerCase())).willReturn(client);
 
         // when
@@ -585,7 +585,7 @@ public class ClientServiceTest {
         // given
         String nameUpperCase = "JOHN DOE";
         String nameLowerCase = "john doe"; // Cambia a minúsculas si el servicio lo convierte
-        ClientEntity client = new ClientEntity(null, nameLowerCase, "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, nameLowerCase, "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByName(nameLowerCase)).willReturn(client);
 
         // when
@@ -601,7 +601,7 @@ public class ClientServiceTest {
     public void whenFindByPhone_thenReturnClient() {
         // given
         String phone = "123456789";
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", phone, 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", phone, 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByPhone(phone)).willReturn(client);
 
         // when
@@ -645,7 +645,7 @@ public class ClientServiceTest {
         // given
         String phoneWithSpaces = " 123456789 ";
         String trimmedPhone = "123456789";
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", trimmedPhone, 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", trimmedPhone, 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByPhone(trimmedPhone)).willReturn(client);
 
         // when
@@ -689,7 +689,7 @@ public class ClientServiceTest {
     public void whenFindByPhone_thenRepositoryMethodCalledOnce() {
         // given
         String phone = "123456789";
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", phone, 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", phone, 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByPhone(phone)).willReturn(client);
 
         // when
@@ -704,7 +704,7 @@ public class ClientServiceTest {
     public void whenFindByJobType_thenReturnClient() {
         // given
         String jobType = "Software Engineer";
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, jobType, 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, jobType, 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByJobType(jobType)).willReturn(client);
 
         // when
@@ -748,7 +748,7 @@ public class ClientServiceTest {
         // given
         String jobTypeWithSpaces = "  Software Engineer  ";
         String trimmedJobType = "Software Engineer";
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, trimmedJobType, 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, trimmedJobType, 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByJobType(trimmedJobType)).willReturn(client);
 
         // when
@@ -778,7 +778,7 @@ public class ClientServiceTest {
     public void whenFindByJobType_thenRepositoryMethodCalledOnce() {
         // given
         String jobType = "Software Engineer";
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, jobType, 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, jobType, 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByJobType(jobType)).willReturn(client);
 
         // when
@@ -807,7 +807,7 @@ public class ClientServiceTest {
     public void whenFindByTypeLoan_thenReturnClient() {
         // given
         String loanType = "Personal Loan";
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, loanType, false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, loanType, false, 5, "Developer");
         given(clientRepository.findByTypeLoan(loanType)).willReturn(client);
 
         // when
@@ -851,7 +851,7 @@ public class ClientServiceTest {
         // given
         String loanTypeWithSpaces = "  Personal Loan  ";
         String trimmedLoanType = "Personal Loan";
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, trimmedLoanType, false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, trimmedLoanType, false, 5, "Developer");
         given(clientRepository.findByTypeLoan(trimmedLoanType)).willReturn(client);
 
         // when
@@ -881,7 +881,7 @@ public class ClientServiceTest {
     public void whenFindByTypeLoan_thenRepositoryMethodCalledOnce() {
         // given
         String loanType = "Personal Loan";
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, loanType, false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, loanType, false, 5, "Developer");
         given(clientRepository.findByTypeLoan(loanType)).willReturn(client);
 
         // when
@@ -909,7 +909,7 @@ public class ClientServiceTest {
     @Test
     public void whenFindByIndependentActivityTrue_thenReturnClient() {
         // given
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByIndependentActivity(true)).willReturn(client);
 
         // when
@@ -924,7 +924,7 @@ public class ClientServiceTest {
     @Test
     public void whenFindByIndependentActivityFalse_thenReturnClient() {
         // given
-        ClientEntity client = new ClientEntity(null, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer", 2, 1);
+        ClientEntity client = new ClientEntity(null, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer");
         given(clientRepository.findByIndependentActivity(false)).willReturn(client);
 
         // when
@@ -965,7 +965,7 @@ public class ClientServiceTest {
     @Test
     public void whenFindByIndependentActivityTrue_thenRepositoryMethodCalledOnce() {
         // given
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByIndependentActivity(true)).willReturn(client);
 
         // when
@@ -979,7 +979,7 @@ public class ClientServiceTest {
     @Test
     public void whenFindByIndependentActivityFalse_thenRepositoryMethodCalledOnce() {
         // given
-        ClientEntity client = new ClientEntity(null, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer", 2, 1);
+        ClientEntity client = new ClientEntity(null, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer");
         given(clientRepository.findByIndependentActivity(false)).willReturn(client);
 
         // when
@@ -993,7 +993,7 @@ public class ClientServiceTest {
     @Test
     public void whenFindByIndependentActivity_thenReturnCorrectClientBasedOnActivity() {
         // given
-        ClientEntity independentClient = new ClientEntity(null, "Alice", "12345678-0", "alice@example.com", "123456780", 35, 2500.0, 12000.0, "Consultant", 55000.0, 10, 3.5, "Business Loan", false, 3, "Manager", 3, 0);
+        ClientEntity independentClient = new ClientEntity(null, "Alice", "12345678-0", "alice@example.com", "123456780", 35, 2500.0, 12000.0, "Consultant", 55000.0, 10, 3.5, "Business Loan", false, 3, "Manager");
         given(clientRepository.findByIndependentActivity(true)).willReturn(independentClient);
 
         // when
@@ -1008,7 +1008,7 @@ public class ClientServiceTest {
     public void whenFindByAge_thenReturnClient() {
         // given
         int age = 30;
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", age, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", age, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByAge(age)).willReturn(client);
 
         // when
@@ -1065,7 +1065,7 @@ public class ClientServiceTest {
     public void whenFindByAge_thenRepositoryMethodCalledOnce() {
         // given
         int age = 30;
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", age, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", age, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByAge(age)).willReturn(client);
 
         // when
@@ -1080,7 +1080,7 @@ public class ClientServiceTest {
     public void whenFindByAge_thenReturnCorrectClientBasedOnAge() {
         // given
         int age = 25;
-        ClientEntity client = new ClientEntity(null, "Alice", "12345678-0", "alice@example.com", "123456780", age, 2500.0, 12000.0, "Consultant", 55000.0, 10, 3.5, "Business Loan", false, 3, "Manager", 3, 0);
+        ClientEntity client = new ClientEntity(null, "Alice", "12345678-0", "alice@example.com", "123456780", age, 2500.0, 12000.0, "Consultant", 55000.0, 10, 3.5, "Business Loan", false, 3, "Manager");
         given(clientRepository.findByAge(age)).willReturn(client);
 
         // when
@@ -1110,7 +1110,7 @@ public class ClientServiceTest {
     public void whenFindByMonthlySalary_thenReturnClient() {
         // given
         double salary = 2000.0;
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, salary, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, salary, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByMonthlySalary(salary)).willReturn(client);
 
         // when
@@ -1167,7 +1167,7 @@ public class ClientServiceTest {
     public void whenFindBySalary_thenRepositoryMethodCalledOnce() {
         // given
         double salary = 2000.0;
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, salary, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, salary, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByMonthlySalary(salary)).willReturn(client);
 
         // when
@@ -1182,7 +1182,7 @@ public class ClientServiceTest {
     public void whenFindBySalary_thenReturnCorrectClientBasedOnSalary() {
         // given
         double salary = 3000.0;
-        ClientEntity client = new ClientEntity(null, "Alice", "12345678-0", "alice@example.com", "123456780", 25, salary, 12000.0, "Consultant", 55000.0, 10, 3.5, "Business Loan", false, 3, "Manager", 3, 0);
+        ClientEntity client = new ClientEntity(null, "Alice", "12345678-0", "alice@example.com", "123456780", 25, salary, 12000.0, "Consultant", 55000.0, 10, 3.5, "Business Loan", false, 3, "Manager");
         given(clientRepository.findByMonthlySalary(salary)).willReturn(client);
 
         // when
@@ -1212,7 +1212,7 @@ public class ClientServiceTest {
     public void whenFindByPersonalSavings_thenReturnClient() {
         // given
         Double savings = 5000.0;
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, savings, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, savings, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByPersonalSavings(savings)).willReturn(client);
 
         // when
@@ -1268,7 +1268,7 @@ public class ClientServiceTest {
     public void whenFindByPersonalSavings_thenRepositoryMethodCalledOnce() {
         // given
         Double savings = 3000.0;
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, savings, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, savings, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByPersonalSavings(savings)).willReturn(client);
 
         // when
@@ -1283,7 +1283,7 @@ public class ClientServiceTest {
     public void whenFindByHighPersonalSavings_thenReturnClient() {
         // given
         Double highSavings = 100000.0;
-        ClientEntity client = new ClientEntity(null, "Alice", "98765432-1", "alice@example.com", "987654321", 35, 3500.0, highSavings, "Project Manager", 80000.0, 24, 3.0, "Mortgage", true, 10, "Lead Manager", 2, 1);
+        ClientEntity client = new ClientEntity(null, "Alice", "98765432-1", "alice@example.com", "987654321", 35, 3500.0, highSavings, "Project Manager", 80000.0, 24, 3.0, "Mortgage", true, 10, "Lead Manager");
         given(clientRepository.findByPersonalSavings(highSavings)).willReturn(client);
 
         // when
@@ -1299,7 +1299,7 @@ public class ClientServiceTest {
     public void whenFindByZeroSavings_thenReturnClient() {
         // given
         Double zeroSavings = 0.0;
-        ClientEntity client = new ClientEntity(null, "Jane Doe", "87654321-0", "jane@example.com", "876543210", 28, 4000.0, zeroSavings, "Designer", 70000.0, 18, 2.0, "Business Loan", true, 6, "Designer Lead", 1, 0);
+        ClientEntity client = new ClientEntity(null, "Jane Doe", "87654321-0", "jane@example.com", "876543210", 28, 4000.0, zeroSavings, "Designer", 70000.0, 18, 2.0, "Business Loan", true, 6, "Designer Lead");
         given(clientRepository.findByPersonalSavings(zeroSavings)).willReturn(client);
 
         // when
@@ -1315,7 +1315,7 @@ public class ClientServiceTest {
     public void whenFindByExpectedAmount_thenReturnClient() {
         // given
         double expectedAmount = 50000.0;
-        ClientEntity client = new ClientEntity(1L, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", expectedAmount, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(1L, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", expectedAmount, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByExpectedAmount(expectedAmount)).willReturn(client);
 
         // when
@@ -1345,7 +1345,7 @@ public class ClientServiceTest {
     public void whenFindByZeroExpectedAmount_thenReturnClient() {
         // given
         double zeroExpectedAmount = 0.0;
-        ClientEntity client = new ClientEntity(2L, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", zeroExpectedAmount, 24, 3.0, "Mortgage", true, 8, "Senior Designer", 2, 1);
+        ClientEntity client = new ClientEntity(2L, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", zeroExpectedAmount, 24, 3.0, "Mortgage", true, 8, "Senior Designer");
         given(clientRepository.findByExpectedAmount(zeroExpectedAmount)).willReturn(client);
 
         // when
@@ -1374,7 +1374,7 @@ public class ClientServiceTest {
     public void whenFindByExpectedAmount_thenRepositoryMethodCalledOnce() {
         // given
         double expectedAmount = 30000.0;
-        ClientEntity client = new ClientEntity(1L, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", expectedAmount, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(1L, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", expectedAmount, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByExpectedAmount(expectedAmount)).willReturn(client);
 
         // when
@@ -1389,7 +1389,7 @@ public class ClientServiceTest {
     public void whenFindByHighExpectedAmount_thenReturnClient() {
         // given
         double highExpectedAmount = 100000.0;
-        ClientEntity client = new ClientEntity(3L, "Alice", "98765432-1", "alice@example.com", "987654321", 35, 3500.0, 25000.0, "Project Manager", highExpectedAmount, 24, 3.0, "Business Loan", true, 10, "Lead Manager", 2, 3);
+        ClientEntity client = new ClientEntity(3L, "Alice", "98765432-1", "alice@example.com", "987654321", 35, 3500.0, 25000.0, "Project Manager", highExpectedAmount, 24, 3.0, "Business Loan", true, 10, "Lead Manager");
         given(clientRepository.findByExpectedAmount(highExpectedAmount)).willReturn(client);
 
         // when
@@ -1405,7 +1405,7 @@ public class ClientServiceTest {
     public void whenFindByLowExpectedAmount_thenReturnClient() {
         // given
         double lowExpectedAmount = 500.0;
-        ClientEntity client = new ClientEntity(4L, "Bob", "56789012-3", "bob@example.com", "567890123", 25, 1500.0, 5000.0, "Junior Developer", lowExpectedAmount, 6, 1.5, "Car Loan", false, 2, "Developer", 0, 1);
+        ClientEntity client = new ClientEntity(4L, "Bob", "56789012-3", "bob@example.com", "567890123", 25, 1500.0, 5000.0, "Junior Developer", lowExpectedAmount, 6, 1.5, "Car Loan", false, 2, "Developer");
         given(clientRepository.findByExpectedAmount(lowExpectedAmount)).willReturn(client);
 
         // when
@@ -1421,7 +1421,7 @@ public class ClientServiceTest {
     public void whenFindByTimeLimit_thenReturnClient() {
         // given
         int timeLimit = 12;
-        ClientEntity client = new ClientEntity(1L, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, timeLimit, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(1L, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, timeLimit, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByTimeLimit(timeLimit)).willReturn(client);
 
         // when
@@ -1451,7 +1451,7 @@ public class ClientServiceTest {
     public void whenFindByZeroTimeLimit_thenReturnClient() {
         // given
         int zeroTimeLimit = 0;
-        ClientEntity client = new ClientEntity(2L, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, zeroTimeLimit, 3.0, "Mortgage", true, 8, "Senior Designer", 2, 1);
+        ClientEntity client = new ClientEntity(2L, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, zeroTimeLimit, 3.0, "Mortgage", true, 8, "Senior Designer");
         given(clientRepository.findByTimeLimit(zeroTimeLimit)).willReturn(client);
 
         // when
@@ -1480,7 +1480,7 @@ public class ClientServiceTest {
     public void whenFindByTimeLimit_thenRepositoryMethodCalledOnce() {
         // given
         int timeLimit = 18;
-        ClientEntity client = new ClientEntity(3L, "Alice", "45678912-3", "alice@example.com", "456789123", 35, 4000.0, 20000.0, "Project Manager", 75000.0, timeLimit, 2.0, "Business Loan", true, 10, "Lead Manager", 2, 3);
+        ClientEntity client = new ClientEntity(3L, "Alice", "45678912-3", "alice@example.com", "456789123", 35, 4000.0, 20000.0, "Project Manager", 75000.0, timeLimit, 2.0, "Business Loan", true, 10, "Lead Manager");
         given(clientRepository.findByTimeLimit(timeLimit)).willReturn(client);
 
         // when
@@ -1495,7 +1495,7 @@ public class ClientServiceTest {
     public void whenFindByHighTimeLimit_thenReturnClient() {
         // given
         int highTimeLimit = 48;
-        ClientEntity client = new ClientEntity(4L, "Bob", "67890123-4", "bob@example.com", "678901234", 40, 5000.0, 30000.0, "Senior Developer", 90000.0, highTimeLimit, 1.8, "Car Loan", false, 12, "Architect", 3, 5);
+        ClientEntity client = new ClientEntity(4L, "Bob", "67890123-4", "bob@example.com", "678901234", 40, 5000.0, 30000.0, "Senior Developer", 90000.0, highTimeLimit, 1.8, "Car Loan", false, 12, "Architect");
         given(clientRepository.findByTimeLimit(highTimeLimit)).willReturn(client);
 
         // when
@@ -1511,7 +1511,7 @@ public class ClientServiceTest {
     public void whenFindByLowTimeLimit_thenReturnClient() {
         // given
         int lowTimeLimit = 6;
-        ClientEntity client = new ClientEntity(5L, "Charlie", "78901234-5", "charlie@example.com", "789012345", 22, 2500.0, 8000.0, "Junior Developer", 35000.0, lowTimeLimit, 2.1, "Student Loan", false, 2, "Intern", 0, 0);
+        ClientEntity client = new ClientEntity(5L, "Charlie", "78901234-5", "charlie@example.com", "789012345", 22, 2500.0, 8000.0, "Junior Developer", 35000.0, lowTimeLimit, 2.1, "Student Loan", false, 2, "Intern");
         given(clientRepository.findByTimeLimit(lowTimeLimit)).willReturn(client);
 
         // when
@@ -1527,7 +1527,7 @@ public class ClientServiceTest {
     public void whenFindByInterestRate_thenReturnClient() {
         // given
         double interestRate = 2.5;
-        ClientEntity client = new ClientEntity(1L, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, interestRate, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(1L, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, interestRate, "Personal Loan", false, 5, "Developer");
         given(clientRepository.findByInterestRate(interestRate)).willReturn(client);
 
         // when
@@ -1557,7 +1557,7 @@ public class ClientServiceTest {
     public void whenFindByZeroInterestRate_thenReturnClient() {
         // given
         double zeroInterestRate = 0.0;
-        ClientEntity client = new ClientEntity(2L, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, zeroInterestRate, "Mortgage", true, 8, "Senior Designer", 2, 1);
+        ClientEntity client = new ClientEntity(2L, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, zeroInterestRate, "Mortgage", true, 8, "Senior Designer");
         given(clientRepository.findByInterestRate(zeroInterestRate)).willReturn(client);
 
         // when
@@ -1586,7 +1586,7 @@ public class ClientServiceTest {
     public void whenFindByInterestRate_thenRepositoryMethodCalledOnce() {
         // given
         double interestRate = 4.5;
-        ClientEntity client = new ClientEntity(3L, "Alice", "45678912-3", "alice@example.com", "456789123", 35, 4000.0, 20000.0, "Project Manager", 75000.0, 36, interestRate, "Business Loan", true, 10, "Lead Manager", 2, 3);
+        ClientEntity client = new ClientEntity(3L, "Alice", "45678912-3", "alice@example.com", "456789123", 35, 4000.0, 20000.0, "Project Manager", 75000.0, 36, interestRate, "Business Loan", true, 10, "Lead Manager");
         given(clientRepository.findByInterestRate(interestRate)).willReturn(client);
 
         // when
@@ -1601,7 +1601,7 @@ public class ClientServiceTest {
     public void whenFindByHighInterestRate_thenReturnClient() {
         // given
         double highInterestRate = 10.0;
-        ClientEntity client = new ClientEntity(4L, "Bob", "67890123-4", "bob@example.com", "678901234", 40, 5000.0, 30000.0, "Senior Developer", 90000.0, 48, highInterestRate, "Car Loan", false, 12, "Architect", 3, 5);
+        ClientEntity client = new ClientEntity(4L, "Bob", "67890123-4", "bob@example.com", "678901234", 40, 5000.0, 30000.0, "Senior Developer", 90000.0, 48, highInterestRate, "Car Loan", false, 12, "Architect");
         given(clientRepository.findByInterestRate(highInterestRate)).willReturn(client);
 
         // when
@@ -1617,7 +1617,7 @@ public class ClientServiceTest {
     public void whenFindByLowInterestRate_thenReturnClient() {
         // given
         double lowInterestRate = 1.0;
-        ClientEntity client = new ClientEntity(5L, "Charlie", "78901234-5", "charlie@example.com", "789012345", 22, 2500.0, 8000.0, "Junior Developer", 35000.0, 6, lowInterestRate, "Student Loan", false, 2, "Intern", 0, 0);
+        ClientEntity client = new ClientEntity(5L, "Charlie", "78901234-5", "charlie@example.com", "789012345", 22, 2500.0, 8000.0, "Junior Developer", 35000.0, 6, lowInterestRate, "Student Loan", false, 2, "Intern");
         given(clientRepository.findByInterestRate(lowInterestRate)).willReturn(client);
 
         // when
@@ -1632,7 +1632,7 @@ public class ClientServiceTest {
     @Test
     public void whenSaveValidClient_thenReturnSavedClient() {
         // given
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.save(client)).willReturn(client);
 
         // when
@@ -1647,7 +1647,7 @@ public class ClientServiceTest {
     @Test
     public void whenSaveClientWithNullName_thenReturnClient() {
         // given
-        ClientEntity client = new ClientEntity(null, null, "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
+        ClientEntity client = new ClientEntity(null, null, "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer");
         given(clientRepository.save(client)).willReturn(client);
 
         // when
@@ -1662,7 +1662,7 @@ public class ClientServiceTest {
     @Test
     public void whenSaveClientWithNegativeInterestRate_thenReturnClient() {
         // given
-        ClientEntity client = new ClientEntity(null, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, -3.0, "Mortgage", true, 8, "Senior Designer", 2, 1);
+        ClientEntity client = new ClientEntity(null, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, -3.0, "Mortgage", true, 8, "Senior Designer");
         given(clientRepository.save(client)).willReturn(client);
 
         // when
@@ -1677,7 +1677,7 @@ public class ClientServiceTest {
     @Test
     public void whenSaveClient_thenRepositoryMethodCalledOnce() {
         // given
-        ClientEntity client = new ClientEntity(null, "Bob Smith", "45678912-3", "bob@example.com", "456789123", 35, 4000.0, 20000.0, "Project Manager", 75000.0, 36, 3.5, "Business Loan", false, 10, "Manager", 2, 0);
+        ClientEntity client = new ClientEntity(null, "Bob Smith", "45678912-3", "bob@example.com", "456789123", 35, 4000.0, 20000.0, "Project Manager", 75000.0, 36, 3.5, "Business Loan", false, 10, "Manager");
         given(clientRepository.save(client)).willReturn(client);
 
         // when
@@ -1691,7 +1691,7 @@ public class ClientServiceTest {
     @Test
     public void whenSaveClientWithNullSavings_thenReturnClient() {
         // given
-        ClientEntity client = new ClientEntity(null, "Charlie Brown", "78901234-5", "charlie@example.com", "789012345", 22, 2500.0, null, "Junior Developer", 35000.0, 6, 1.0, "Student Loan", false, 2, "Intern", 0, 0);
+        ClientEntity client = new ClientEntity(null, "Charlie Brown", "78901234-5", "charlie@example.com", "789012345", 22, 2500.0, null, "Junior Developer", 35000.0, 6, 1.0, "Student Loan", false, 2, "Intern");
         given(clientRepository.save(client)).willReturn(client);
 
         // when
@@ -1706,7 +1706,7 @@ public class ClientServiceTest {
     @Test
     public void whenSaveClientWithNullFieldsExceptId_thenReturnClient() {
         // given
-        ClientEntity client = new ClientEntity(1L, null, null, null, null, 0, 0.0, null, null, 0.0, 0, 0.0, null, false, 0, null, 0, 0);
+        ClientEntity client = new ClientEntity(1L, null, null, null, null, 0, 0.0, null, null, 0.0, 0, 0.0, null, false, 0, null);
         given(clientRepository.save(client)).willReturn(client);
 
         // when
@@ -1721,7 +1721,7 @@ public class ClientServiceTest {
     @Test
     public void whenSaveCompleteClient_thenReturnSavedClient() {
         // given
-        ClientEntity client = new ClientEntity(2L, "Alice Wonderland", "11111111-1", "alice@example.com", "111111111", 40, 6000.0, 25000.0, "Engineer", 70000.0, 36, 3.0, "Car Loan", true, 15, "Principal Engineer", 3, 1);
+        ClientEntity client = new ClientEntity(2L, "Alice Wonderland", "11111111-1", "alice@example.com", "111111111", 40, 6000.0, 25000.0, "Engineer", 70000.0, 36, 3.0, "Car Loan", true, 15, "Principal Engineer");
         given(clientRepository.save(client)).willReturn(client);
 
         // when
@@ -1824,95 +1824,6 @@ public class ClientServiceTest {
         verify(clientRepository, never()).deleteById(zeroId);
     }
 
-    @Test
-    public void whenDeleteValidClient_thenRepositoryMethodCalledOnce() {
-        // given
-        ClientEntity client = new ClientEntity(1L, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
-
-        // when
-        clientService.delete(client);
-
-        // then
-        verify(clientRepository, times(1)).delete(client);
-    }
-
-    // 2. Prueba para eliminar un cliente nulo
-    @Test
-    public void whenDeleteNullClient_thenRepositoryMethodNotCalled() {
-        // when
-        clientService.delete(null);
-
-        // then
-        verify(clientRepository, never()).delete(null);
-    }
-
-    // 3. Prueba para eliminar un cliente con ID nulo
-    @Test
-    public void whenDeleteClientWithNullId_thenRepositoryMethodNotCalled() {
-        // given
-        ClientEntity client = new ClientEntity(null, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
-
-        // when
-        clientService.delete(client);
-
-        // then
-        verify(clientRepository, never()).delete(client);
-    }
-
-    // 4. Prueba para eliminar un cliente con ID negativo
-    @Test
-    public void whenDeleteClientWithNegativeId_thenRepositoryMethodCalled() {
-        // given
-        ClientEntity client = new ClientEntity(-1L, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
-
-        // when
-        clientService.delete(client);
-
-        // then
-        verify(clientRepository, times(1)).delete(client);
-    }
-
-    // 5. Prueba para eliminar un cliente con todos los campos nulos
-    @Test
-    public void whenDeleteClientWithAllFieldsNull_thenRepositoryMethodNotCalled() {
-        // given
-        ClientEntity client = new ClientEntity(null, null, null, null, null, 0, 0.0, null, null, 0.0, 0, 0.0, null, false, 0, null, 0, 0);
-
-        // when
-        clientService.delete(client);
-
-        // then
-        verify(clientRepository, never()).delete(client);
-    }
-
-    // 6. Prueba para eliminar múltiples clientes seguidos
-    @Test
-    public void whenDeleteMultipleClients_thenRepositoryMethodCalledMultipleTimes() {
-        // given
-        ClientEntity client1 = new ClientEntity(1L, "John Doe", "12345678-9", "john@example.com", "123456789", 30, 2000.0, 10000.0, "Software Engineer", 50000.0, 12, 2.5, "Personal Loan", false, 5, "Developer", 1, 0);
-        ClientEntity client2 = new ClientEntity(2L, "Jane Doe", "98765432-1", "jane@example.com", "987654321", 28, 3000.0, 15000.0, "Designer", 60000.0, 24, 3.0, "Mortgage", true, 8, "Senior Designer", 2, 1);
-
-        // when
-        clientService.delete(client1);
-        clientService.delete(client2);
-
-        // then
-        verify(clientRepository, times(1)).delete(client1);
-        verify(clientRepository, times(1)).delete(client2);
-    }
-
-    // 7. Prueba para verificar que el método delete no lanza excepciones
-    @Test
-    public void whenDeleteValidClient_thenNoExceptionThrown() {
-        // given
-        ClientEntity client = new ClientEntity(3L, "John Smith", "13579135-1", "john.smith@example.com", "987654321", 40, 5000.0, 20000.0, "Manager", 80000.0, 24, 4.0, "Business Loan", false, 10, "CEO", 2, 1);
-
-        // when
-        clientService.delete(client);
-
-        // then
-        verify(clientRepository, times(1)).delete(client);
-    }
 
     // 1. Prueba para eliminar todos los clientes
     @Test
@@ -2200,6 +2111,127 @@ public class ClientServiceTest {
 
         // then
         verify(clientRepository, times(1)).existsByRut(rut);
+    }
+
+    // 1. Prueba cuando el cliente es nulo
+    @Test
+    public void whenUpdateWithNullClient_thenReturnNull() {
+        // when
+        ClientEntity updatedClient = clientService.update(null);
+
+        // then
+        assertThat(updatedClient).isNull();
+        verify(clientRepository, times(0)).save(null);
+    }
+
+    // 2. Prueba cuando el cliente tiene ID nulo
+    @Test
+    public void whenUpdateWithClientHavingNullId_thenReturnNull() {
+        // given
+        ClientEntity client = new ClientEntity();
+        client.setClient_id(null); // ID es nulo
+
+        // when
+        ClientEntity updatedClient = clientService.update(client);
+
+        // then
+        assertThat(updatedClient).isNull();
+        verify(clientRepository, times(0)).save(client);
+    }
+
+    // 3. Prueba cuando se actualiza un cliente válido
+    @Test
+    public void whenUpdateWithValidClient_thenReturnUpdatedClient() {
+        // given
+        ClientEntity client = new ClientEntity(
+                1L, "John Doe", "12345678-9", "john@example.com",
+                "123456789", 30, 2000.0, 10000.0,
+                "Software Engineer", 50000.0, 12,
+                2.5, "Personal Loan", false, 5, "Developer"
+        );
+
+        given(clientRepository.save(client)).willReturn(client);
+
+        // when
+        ClientEntity updatedClient = clientService.update(client);
+
+        // then
+        assertThat(updatedClient).isEqualTo(client);
+        verify(clientRepository, times(1)).save(client);
+    }
+
+    // 4. Prueba cuando se intenta actualizar un cliente existente
+    @Test
+    public void whenUpdateExistingClient_thenSaveIsCalledOnce() {
+        // given
+        ClientEntity client = new ClientEntity(2L, "Jane Doe", "87654321-0", "jane@example.com",
+                "987654321", 28, 2500.0, 5000.0,
+                "Data Analyst", 60000.0, 24,
+                3.0, "Home Loan", true, 3, "Analyst");
+
+        // when
+        clientService.update(client);
+
+        // then
+        verify(clientRepository, times(1)).save(client);
+    }
+
+    // 5. Prueba cuando se actualiza un cliente sin cambios
+    @Test
+    public void whenUpdateClientWithNoChanges_thenSaveIsCalledOnce() {
+        // given
+        ClientEntity client = new ClientEntity(3L, "Alice Smith", "12312312-3", "alice@example.com",
+                "456789123", 35, 3000.0, 15000.0,
+                "Manager", 70000.0, 36,
+                4.0, "Business Loan", false, 10, "Manager");
+
+        given(clientRepository.save(client)).willReturn(client);
+
+        // when
+        ClientEntity updatedClient = clientService.update(client);
+
+        // then
+        assertThat(updatedClient).isEqualTo(client);
+        verify(clientRepository, times(1)).save(client);
+    }
+
+    // 6. Prueba cuando se actualiza un cliente con datos inválidos
+    @Test
+    public void whenUpdateClientWithInvalidData_thenSaveIsNotCalled() {
+        // given
+        ClientEntity client = new ClientEntity(4L, "", "45645645-4", "invalid@example.com",
+                "987654321", 20, 1500.0, 500.0,
+                "Intern", 10000.0, 6,
+                0.5, "Personal Loan", false, 1, "Intern");
+
+        // when
+        ClientEntity updatedClient = clientService.update(client);
+
+        // then
+        assertThat(updatedClient).isNull();
+        verify(clientRepository, times(0)).save(client);
+    }
+
+    // 7. Prueba cuando se actualiza un cliente con nombre que contiene un número
+    @Test
+    public void whenUpdateClientNameContainsNumber_thenReturnUpdatedClient() {
+        // given
+        ClientEntity client = new ClientEntity(
+                5L, "John Doe2", "12345678-9", "john2@example.com",
+                "123456789", 30, 2000.0, 10000.0,
+                "Software Engineer", 50000.0, 12,
+                2.5, "Personal Loan", false, 5, "Developer"
+        );
+
+        given(clientRepository.save(client)).willReturn(client);
+
+        // when
+        ClientEntity updatedClient = clientService.update(client);
+
+        // then
+        assertThat(updatedClient).isEqualTo(client);
+        assertThat(updatedClient.getName()).contains("2");
+        verify(clientRepository, times(1)).save(client);
     }
 
 

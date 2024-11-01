@@ -28,20 +28,11 @@ public class CreditApplicationEntity {
     @Column(name = "credit_date")
     private String credit_date;
 
-    @Column(name = "document_1")
-    private boolean document_1;
-
-    @Column(name = "document_2")
-    private boolean document_2;
-
-    @Column(name = "document_3")
-    private boolean document_3;
-
-    @Column(name = "document_4")
-    private boolean document_4;
-
     @Column(name = "status")
     private String status;
+
+    @Column(name = "amount")
+    private int amount;
 
 
 

@@ -98,23 +98,24 @@ public class ClientController {
 
     }
 
-    @PutMapping("/clients/{rut}")
-    public ResponseEntity<ClientEntity> updateClientByRut(@PathVariable String rut, @RequestBody ClientEntity updatedClient) {
-        ClientEntity client = clientService.updateClientByRut(rut, updatedClient);
-        if (client == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(client);
+    @PutMapping("/{client_id}")
+    public ResponseEntity<ClientEntity> updateClient(@PathVariable Long client_id, @RequestBody ClientEntity client) {
+        // Busca el cliente por ID, actualiza y retorna
+        client.setClient_id(client_id);
+        ClientEntity clientUpdated = clientService.update(client);
+        return ResponseEntity.ok(clientUpdated);
     }
 
-    @GetMapping("/rut/{rut}")
-    public ResponseEntity<ClientEntity> getClientByRut(@PathVariable String rut) {
-        ClientEntity client = clientService.findByRut(rut);
-        if (client == null) {
-            return ResponseEntity.notFound().build(); // Retorna 404 si el cliente no existe
+    @DeleteMapping("/{clientId}")
+    public ResponseEntity<String> deleteClientById(@PathVariable Long clientId) {
+        if (clientId == null || clientId <= 0) {
+            return ResponseEntity.badRequest().body("Invalid client ID. It must be a positive number.");
         }
-        return ResponseEntity.ok(client);
+
+        clientService.deleteById(clientId);
+        return ResponseEntity.ok("Client deleted successfully.");
     }
+
 
 
 

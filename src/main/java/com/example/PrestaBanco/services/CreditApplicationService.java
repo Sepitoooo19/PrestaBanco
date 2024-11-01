@@ -7,6 +7,7 @@ import com.example.PrestaBanco.repositories.CreditApplicationRepository;
 import com.example.PrestaBanco.entities.CreditApplicationEntity;
 import com.example.PrestaBanco.entities.ClientEntity;
 import com.example.PrestaBanco.repositories.ClientRepository;
+
 import com.example.PrestaBanco.entities.LoanEntity;
 import com.example.PrestaBanco.repositories.LoanRepository;
 import java.time.LocalDate;
@@ -45,21 +46,6 @@ public class CreditApplicationService {
         return creditApplicationRepository.findByCreditDate(credit_date);
     }
 
-    public CreditApplicationEntity findByDocument1(boolean document_1) {
-        return creditApplicationRepository.findByDocument1(document_1);
-    }
-
-    public CreditApplicationEntity findByDocument2(boolean document_2) {
-        return creditApplicationRepository.findByDocument2(document_2);
-    }
-
-    public CreditApplicationEntity findByDocument3(boolean document_3) {
-        return creditApplicationRepository.findByDocument3(document_3);
-    }
-
-    public CreditApplicationEntity findByDocument4(boolean document_4) {
-        return creditApplicationRepository.findByDocument4(document_4);
-    }
 
     public CreditApplicationEntity findByStatus(String status) {
         return creditApplicationRepository.findByStatus(status);
@@ -69,9 +55,17 @@ public class CreditApplicationService {
         return creditApplicationRepository.existsByClientId(client_id);
     }
 
-    public CreditApplicationEntity save(CreditApplicationEntity creditApplication) {
-        return creditApplicationRepository.save(creditApplication);
+    public int getMonthlyLoanOfClientByRut(String rut) {
+        ClientEntity client = clientRepository.findByRut(rut);
+        double interest_rate = client.getInterest_rate() / 12 / 100;
+        double expected_amount = client.getExpected_amount();
+        int time_limit_in_months = client.getTime_limit() * 12;
+        double monthly_fee = expected_amount * ((interest_rate*(Math.pow(1+interest_rate, time_limit_in_months)))/(Math.pow(1+interest_rate, time_limit_in_months)-1));
+        return (int) monthly_fee;
+
     }
+
+
 
     public CreditApplicationEntity createCreditApplicationByRut(String rut, String loan_type) {
         // Buscar cliente por rut
@@ -84,15 +78,17 @@ public class CreditApplicationService {
         // Obtener client_id del cliente encontrado
         Long client_id = client.getClient_id();
 
+        double interest_rate = client.getInterest_rate() / 12 / 100;
+        double expected_amount = client.getExpected_amount();
+        int time_limit_in_months = client.getTime_limit() * 12;
+        double monthly_fee = expected_amount * ((interest_rate*(Math.pow(1+interest_rate, time_limit_in_months)))/(Math.pow(1+interest_rate, time_limit_in_months)-1));
+        int monthly_fee_int = (int) monthly_fee;
         // Crear nueva solicitud de crédito
         CreditApplicationEntity creditApplication = new CreditApplicationEntity();
         creditApplication.setClient_id(client_id);
         creditApplication.setName(loan_type);
         creditApplication.setCredit_date(LocalDate.now().toString());
-        creditApplication.setDocument_1(false);
-        creditApplication.setDocument_2(false);
-        creditApplication.setDocument_3(false);
-        creditApplication.setDocument_4(false);
+        creditApplication.setAmount(monthly_fee_int);
         creditApplication.setStatus("PENDING");
 
         // Guardar la entidad en la base de datos y retornar

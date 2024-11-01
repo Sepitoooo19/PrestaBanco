@@ -1,4 +1,5 @@
 package com.example.PrestaBanco.services;
+import ch.qos.logback.core.net.server.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.PrestaBanco.repositories.ClientRepository;
@@ -127,13 +128,7 @@ public class ClientService {
         }
         clientRepository.deleteById(client_id);
     }
-    public void delete(ClientEntity client) {
-        if (client == null || client.getClient_id() == null) {
-            // No hacer nada si el cliente o su ID es nulo
-            return;
-        }
-        clientRepository.delete(client);
-    }
+
     public void deleteAll() {
         clientRepository.deleteAll();
     }
@@ -146,29 +141,11 @@ public class ClientService {
         return clientRepository.existsByRut(rut);
     }
 
-    public ClientEntity updateClientByRut(String rut, ClientEntity updatedClient) {
-        ClientEntity existingClient = clientRepository.findByRut(rut);
-        if (existingClient == null) {
-            return null; // Si no existe un cliente con ese RUT, retornar null
+    public ClientEntity update(ClientEntity client) {
+        if (client == null || client.getClient_id() == null || client.getName().isEmpty()) {
+            return null;
         }
-
-        // Actualiza los campos deseados del cliente existente
-        existingClient.setName(updatedClient.getName());
-        existingClient.setEmail(updatedClient.getEmail());
-        existingClient.setPhone(updatedClient.getPhone());
-        existingClient.setAge(updatedClient.getAge());
-        existingClient.setMonthly_salary(updatedClient.getMonthly_salary());
-        existingClient.setPersonal_savings(updatedClient.getPersonal_savings());
-        existingClient.setJob_type(updatedClient.getJob_type());
-        existingClient.setExpected_amount(updatedClient.getExpected_amount());
-        existingClient.setTime_limit(updatedClient.getTime_limit());
-        existingClient.setInterest_rate(updatedClient.getInterest_rate());
-        existingClient.setType_loan(updatedClient.getType_loan());
-        existingClient.setIndependent_activity(updatedClient.isIndependent_activity());
-        existingClient.setJob_seniority(updatedClient.getJob_seniority());
-        existingClient.setActual_job(updatedClient.getActual_job());
-
-        return clientRepository.save(existingClient);
+        return clientRepository.save(client);
     }
 
 
