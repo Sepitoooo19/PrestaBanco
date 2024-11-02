@@ -39,10 +39,6 @@ public class DebtService {
         return debtRepository.findByDebtStatus(debt_status);
     }
 
-    public boolean existsByDebtId(Long debt_id) {
-        return debtRepository.existsByDebtId(debt_id);
-    }
-
     public boolean existsByClientId(Long client_id) {
         return debtRepository.existsByClientId(client_id);
     }

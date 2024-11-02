@@ -8,10 +8,9 @@ import com.example.PrestaBanco.entities.CreditApplicationEntity;
 import com.example.PrestaBanco.entities.ClientEntity;
 import com.example.PrestaBanco.repositories.ClientRepository;
 
-import com.example.PrestaBanco.entities.LoanEntity;
-import com.example.PrestaBanco.repositories.LoanRepository;
 import java.time.LocalDate;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -23,14 +22,15 @@ public class CreditApplicationService {
     @Autowired
     private ClientRepository clientRepository;
 
-    @Autowired
-    private LoanRepository loanRepository;
 
     public List<CreditApplicationEntity> findAll() {
         return creditApplicationRepository.findAll();
     }
 
     public List<CreditApplicationEntity> findByClientId(Long client_id) {
+        if (client_id == null) {
+            return Collections.emptyList(); // Manejar caso de cliente no válido
+        }
         return creditApplicationRepository.findByClientId(client_id);
     }
 
@@ -54,18 +54,6 @@ public class CreditApplicationService {
     public boolean existsByClientId(Long client_id) {
         return creditApplicationRepository.existsByClientId(client_id);
     }
-
-    public int getMonthlyLoanOfClientByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
-        double interest_rate = client.getInterest_rate() / 12 / 100;
-        double expected_amount = client.getExpected_amount();
-        int time_limit_in_months = client.getTime_limit() * 12;
-        double monthly_fee = expected_amount * ((interest_rate*(Math.pow(1+interest_rate, time_limit_in_months)))/(Math.pow(1+interest_rate, time_limit_in_months)-1));
-        return (int) monthly_fee;
-
-    }
-
-
 
     public CreditApplicationEntity createCreditApplicationByRut(String rut, String loan_type) {
         // Buscar cliente por rut

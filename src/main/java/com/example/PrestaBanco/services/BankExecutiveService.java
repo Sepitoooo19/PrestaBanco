@@ -1,29 +1,23 @@
 package com.example.PrestaBanco.services;
 
-import ch.qos.logback.core.net.server.Client;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.Local;
+
 import org.springframework.stereotype.Service;
 import com.example.PrestaBanco.repositories.ClientRepository;
 import com.example.PrestaBanco.entities.ClientEntity;
 
-import java.time.temporal.ChronoUnit;
 import java.util.List;
-import com.example.PrestaBanco.repositories.BanExecutiveRepository;
-import com.example.PrestaBanco.entities.BankExecutiveEntity;
+
 import com.example.PrestaBanco.repositories.DebtRepository;
 import com.example.PrestaBanco.entities.DebtEntity;
 import com.example.PrestaBanco.entities.EmploymentHistoryEntity;
 import com.example.PrestaBanco.repositories.EmploymentHistoryRepository;
 import com.example.PrestaBanco.entities.CreditApplicationEntity;
 import com.example.PrestaBanco.repositories.CreditApplicationRepository;
-import com.example.PrestaBanco.entities.LoanEntity;
-import com.example.PrestaBanco.repositories.LoanRepository;
 import com.example.PrestaBanco.entities.ClientBankAccountEntity;
 import com.example.PrestaBanco.repositories.ClientBankAccountRepository;
-import com.example.PrestaBanco.repositories.DocumentRepository;
-import com.example.PrestaBanco.entities.DocumentEntity;
+
 import java.util.Arrays;
 import java.time.LocalDate;
 import java.util.Optional;
@@ -31,10 +25,6 @@ import java.util.Optional;
 
 @Service
 public class BankExecutiveService {
-
-    @Autowired
-    private BanExecutiveRepository bankExecutiveRepository;
-
     @Autowired
     private ClientRepository clientRepository;
 
@@ -47,44 +37,11 @@ public class BankExecutiveService {
     @Autowired
     private CreditApplicationRepository creditApplicationRepository;
 
-    @Autowired
-    private LoanRepository loanRepository;
-
-    @Autowired
-    private DocumentRepository documentRepository;
 
     int fireInsurance = 20000;
 
     @Autowired
     private ClientBankAccountRepository clientBankAccountRepository;
-
-    public List<BankExecutiveEntity> findAll() {
-        return bankExecutiveRepository.findAll();
-    }
-
-    public BankExecutiveEntity findByRut(String rut) {
-        return bankExecutiveRepository.findByRut(rut);
-    }
-
-    public BankExecutiveEntity findByEmail(String email) {
-        return bankExecutiveRepository.findByEmail(email);
-    }
-
-    public BankExecutiveEntity findByExecutiveId(Long executive_id) {
-        return bankExecutiveRepository.findByExecutiveId(executive_id);
-    }
-
-    public BankExecutiveEntity findByName(String name) {
-        return bankExecutiveRepository.findByName(name);
-    }
-
-    public BankExecutiveEntity findByPhone(String phone) {
-        return bankExecutiveRepository.findByPhone(phone);
-    }
-
-    public boolean existsByRut(String rut) {
-        return bankExecutiveRepository.existsByRut(rut);
-    }
 
 
     public double getExpectedAmountOfClientByRut(String rut) {
@@ -140,18 +97,19 @@ public class BankExecutiveService {
 
     public double getDebtAmountByRut(String rut) {
         ClientEntity client = clientRepository.findByRut(rut);
-        List<DebtEntity> debts = debtRepository.findByClientId(client.getClient_id());
 
-        if(client.getClient_id() == null) {
-            return 0;
+        // Verifica que el cliente no sea nulo
+        if (client == null || client.getClient_id() == null) {
+            return 0; // Retorna 0 si el cliente no existe
         }
+
+        List<DebtEntity> debts = debtRepository.findByClientId(client.getClient_id());
 
         double debt_amount = 0;
         for (DebtEntity debt : debts) {
             debt_amount += debt.getDebt_amount();
         }
         return debt_amount;
-
     }
 
     public List<DebtEntity> getDebtsByRut(String rut) {
@@ -173,10 +131,6 @@ public class BankExecutiveService {
         return creditApplicationRepository.findByClientId(client.getClient_id());
     }
 
-    public List<LoanEntity> getLoansByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
-        return loanRepository.findByClientId(client.getClient_id());
-    }
 
     public List<ClientBankAccountEntity> getClientBankAccountsByRut(String rut) {
         ClientEntity client = clientRepository.findByRut(rut);
@@ -238,29 +192,36 @@ public class BankExecutiveService {
 
 
 
-    public boolean isBankAccountBalanceTenPercentageOfMonthlyFeeByRut(String rut) {
-        ClientEntity client = clientRepository.findByRut(rut);
-        List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(client.getClient_id());
-        double monthly_fee = getMonthlyLoanOfClientByRut(rut);
-        int totalDeposit = 0;
-
-        // Calcular el total de depósitos
-        for (ClientBankAccountEntity clientBankAccount : clientBankAccounts) {
-            if (clientBankAccount.getTransaction().equals("deposit")) {
-                totalDeposit += clientBankAccount.getAmount();
-            }
-        }
-
-        double requiredMinimumBalance = monthly_fee * 0.1;
-
-        // Evaluar si el saldo cumple con el mínimo requerido
-        if (totalDeposit >= requiredMinimumBalance) {
-            return true; // Cumple con el requisito
-        } else {
-            System.out.println("Saldo insuficiente: El saldo es inferior al 10% del monto del préstamo solicitado.");
-            return false; // No cumple con el requisito
-        }
-    }
+//    public boolean isBankAccountBalanceTenPercentageOfMonthlyFeeByRut(String rut) {
+//        ClientEntity client = clientRepository.findByRut(rut);
+//
+//        // Manejo del caso en que el cliente no existe
+//        if (client == null) {
+//            System.out.println("Cliente no encontrado.");
+//            return false; // No existe cliente
+//        }
+//
+//        List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(client.getClient_id());
+//
+//
+//        int monthly_fee = getMonthlyLoanOfClientByRut(rut);
+//
+//        // Inicializa el total de depósitos
+//        double totalDeposit = 0.0;
+//
+//        // Calcula el total de depósitos
+//        for (ClientBankAccountEntity clientBankAccount : clientBankAccounts) {
+//            if ("deposit".equals(clientBankAccount.getTransaction())) {
+//                totalDeposit += clientBankAccount.getAmount();
+//            }
+//        }
+//
+//        // Calcula el saldo mínimo requerido
+//        double requiredMinimumBalance = monthly_fee * 0.1;
+//
+//        // Evaluar si el saldo cumple con el mínimo requerido
+//        return totalDeposit >= requiredMinimumBalance;
+//    }
 
     private boolean isWithinLast12Months(LocalDate transactionDate) {
         LocalDate twelveMonthsAgo = LocalDate.now().minusMonths(12);
@@ -376,56 +337,53 @@ public class BankExecutiveService {
 
 
 
-    public boolean verifyBalanceAndAccountAge(String rut) {
-        // Obtener todas las cuentas bancarias del cliente
-        ClientEntity client = clientRepository.findByRut(rut);
-        long clientId = client.getClient_id();
-        List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(clientId);
-        double loanAmount = getMonthlyLoanOfClientByRut(rut);
-
-        // Verificar si hay cuentas bancarias
-        if (clientBankAccounts.isEmpty()) {
-            return false; // No hay cuentas bancarias para este cliente
-        }
-
-        // Obtener la fecha actual
-        LocalDate now = LocalDate.now();
-
-        // Variables para almacenar el saldo total y la antigüedad mínima de las cuentas
-        double totalBalance = 0;
-        boolean hasSufficientBalance = true;
-        boolean isOlderThanTwoYears = false;
-
-        // Recorrer todas las cuentas bancarias del cliente
-        for (ClientBankAccountEntity account : clientBankAccounts) {
-            // Sumar el saldo de la cuenta
-            totalBalance += account.getAmount();
-
-            // Calcular la antigüedad de la cuenta
-            LocalDate accountOpeningDate = account.getAccount_opening();
-            long yearsWithAccount = ChronoUnit.YEARS.between(accountOpeningDate, now);
-
-            // Verificar si alguna cuenta tiene 2 años o más
-            if (yearsWithAccount >= 2) {
-                isOlderThanTwoYears = true;
-            }
-        }
-
-        // Determinar el porcentaje requerido según la antigüedad de la cuenta
-        double requiredBalance;
-        if (isOlderThanTwoYears) {
-            // Si la cuenta tiene 2 años o más, se requiere el 10% del monto del préstamo
-            requiredBalance = loanAmount * 0.10;
-        } else {
-            // Si la cuenta tiene menos de 2 años, se requiere el 20% del monto del préstamo
-            requiredBalance = loanAmount * 0.20;
-        }
-
-        // Verificar si el saldo total cumple con el saldo requerido
-        return totalBalance >= requiredBalance;
-    }
-
-
+//    public boolean verifyBalanceAndAccountAge(String rut) {
+//        // Obtener todas las cuentas bancarias del cliente
+//        ClientEntity client = clientRepository.findByRut(rut);
+//        long clientId = client.getClient_id();
+//        List<ClientBankAccountEntity> clientBankAccounts = clientBankAccountRepository.findByClientId(clientId);
+//        double loanAmount = getMonthlyLoanOfClientByRut(rut);
+//
+//        // Verificar si hay cuentas bancarias
+//        if (clientBankAccounts.isEmpty()) {
+//            return false; // No hay cuentas bancarias para este cliente
+//        }
+//
+//        // Obtener la fecha actual
+//        LocalDate now = LocalDate.now();
+//
+//        // Variables para almacenar el saldo total y la antigüedad mínima de las cuentas
+//        double totalBalance = 0;
+//        boolean isOlderThanTwoYears = false;
+//
+//        // Recorrer todas las cuentas bancarias del cliente
+//        for (ClientBankAccountEntity account : clientBankAccounts) {
+//            // Sumar el saldo de la cuenta
+//            totalBalance += account.getAmount();
+//
+//            // Calcular la antigüedad de la cuenta
+//            LocalDate accountOpeningDate = account.getAccount_opening();
+//            long yearsWithAccount = ChronoUnit.YEARS.between(accountOpeningDate, now);
+//
+//            // Verificar si alguna cuenta tiene 2 años o más
+//            if (yearsWithAccount >= 2) {
+//                isOlderThanTwoYears = true;
+//            }
+//        }
+//
+//        // Determinar el porcentaje requerido según la antigüedad de la cuenta
+//        double requiredBalance;
+//        if (isOlderThanTwoYears) {
+//            // Si la cuenta tiene 2 años o más, se requiere el 10% del monto del préstamo
+//            requiredBalance = loanAmount * 0.10;
+//        } else {
+//            // Si la cuenta tiene menos de 2 años, se requiere el 20% del monto del préstamo
+//            requiredBalance = loanAmount * 0.20;
+//        }
+//
+//        // Verificar si el saldo total cumple con el saldo requerido
+//        return totalBalance >= requiredBalance;
+//    }
     public boolean checkRecentWithdrawalsByRut(String rut) {
         // Obtener el cliente por su rut
         ClientEntity client = clientRepository.findByRut(rut);
@@ -458,35 +416,6 @@ public class BankExecutiveService {
         return hasLargeWithdrawals; // Retorna true si hubo un retiro mayor al 30% del saldo
     }
 
-    public int checkResultsEvaluationByRut(String rut){
-
-        int results = 0;
-
-
-        if(isBankAccountBalanceTenPercentageOfMonthlyFeeByRut(rut)){
-            results += 1;
-        }
-
-        if(isBankAccountConsistentByRut(rut)){
-            results += 1;
-        }
-
-        if(containsBankAccountPeriodicDepositsByRut(rut)){
-            results += 1;
-        }
-
-        if(verifyBalanceAndAccountAge(rut)){
-            results += 1;
-        }
-
-        if (!checkRecentWithdrawalsByRut(rut)){
-            results += 1;
-        }
-
-        return results;
-
-
-    }
 
     public int insuranceCalculationByRut(String rut) {
 
@@ -554,11 +483,10 @@ public class BankExecutiveService {
             throw new IllegalArgumentException("Status cannot be null or empty");
         }
 
+        // Obtener la solicitud de crédito
         CreditApplicationEntity creditApplication = getCreditApplicationById(credit_application_id);
-        if (creditApplication == null) {
-            throw new EntityNotFoundException("Credit application not found with ID: " + credit_application_id);
-        }
 
+        // Actualizar el estado
         creditApplication.setStatus(status);
         return creditApplicationRepository.save(creditApplication);
     }
@@ -577,16 +505,22 @@ public class BankExecutiveService {
 
     public double getPendingDebtsMonthlySalaryByRut(String rut) {
         ClientEntity client = clientRepository.findByRut(rut);
-        List<DebtEntity> debts = debtRepository.findByClientId(client.getClient_id());
-        int monthlye_fee = getMonthlyLoanOfClientByRut(rut);
 
-        double pendingDebts = 0;
+        // Verificar si el cliente existe
+        if (client == null) {
+            throw new EntityNotFoundException("Client not found with RUT: " + rut);
+        }
+
+        List<DebtEntity> debts = debtRepository.findByClientId(client.getClient_id());
+        int monthly_fee = getMonthlyLoanOfClientByRut(rut);
+
+        int pendingDebts = 0;
         for (DebtEntity debt : debts) {
             if (debt.getDebt_status().equals("pending")) {
-                pendingDebts = debt.getDebt_amount() + pendingDebts;
+                pendingDebts = (int)debt.getDebt_amount() + pendingDebts;
             }
         }
-        pendingDebts = pendingDebts + monthlye_fee;
+        pendingDebts += monthly_fee;
         double ratio = (pendingDebts / client.getMonthly_salary()) * 100;
         return ratio;
     }

@@ -16,7 +16,7 @@ public interface ClientRepository extends JpaRepository<ClientEntity, Long> {
     @Query("SELECT c FROM ClientEntity c")
     public List<ClientEntity> findAll();
 
-    public ClientEntity findByRut(String email);
+    public ClientEntity findByRut(String rut);
 
     @Query("SELECT c FROM ClientEntity c WHERE c.phone = :phone")
     ClientEntity findByPhone(@Param("phone") String phone);

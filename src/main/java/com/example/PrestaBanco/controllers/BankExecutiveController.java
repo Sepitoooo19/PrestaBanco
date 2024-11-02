@@ -120,12 +120,6 @@ public class BankExecutiveController {
 
     }
 
-    @GetMapping("/{rut}/loan")
-    public ResponseEntity<List<LoanEntity>> getLoanByRut(@PathVariable String rut) {
-
-        List<LoanEntity> loan = bankExecutiveService.getLoansByRut(rut);
-        return new ResponseEntity<>(loan, HttpStatus.OK);
-    }
 
     @GetMapping("/{rut}/client-bank-account")
     public ResponseEntity<List<ClientBankAccountEntity>> getClientBankAccountByRut(@PathVariable String rut) {
@@ -156,21 +150,21 @@ public class BankExecutiveController {
         }
     }
 
-    @GetMapping("/{rut}/check-balance")
-    public ResponseEntity<String> checkAccountBalance(@PathVariable String rut) {
-        try {
-            boolean isBalanceSufficient = bankExecutiveService.isBankAccountBalanceTenPercentageOfMonthlyFeeByRut(rut);
-
-            if (isBalanceSufficient) {
-                return ResponseEntity.ok("El saldo es suficiente.");
-            } else {
-                return ResponseEntity.ok("El saldo es inferior al 10% del monto del préstamo solicitado.");
-            }
-        } catch (Exception e) {
-            // Manejar la excepción y retornar un mensaje genérico
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se pudo calcular el saldo. Intente nuevamente más tarde.");
-        }
-    }
+//    @GetMapping("/{rut}/check-balance")
+//    public ResponseEntity<String> checkAccountBalance(@PathVariable String rut) {
+//        try {
+//            boolean isBalanceSufficient = bankExecutiveService.isBankAccountBalanceTenPercentageOfMonthlyFeeByRut(rut);
+//
+//            if (isBalanceSufficient) {
+//                return ResponseEntity.ok("El saldo es suficiente.");
+//            } else {
+//                return ResponseEntity.ok("El saldo es inferior al 10% del monto del préstamo solicitado.");
+//            }
+//        } catch (Exception e) {
+//            // Manejar la excepción y retornar un mensaje genérico
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("No se pudo calcular el saldo. Intente nuevamente más tarde.");
+//        }
+//    }
 
     @GetMapping("/{rut}/account-consistency")
     public ResponseEntity<String> checkBankAccountConsistency(@PathVariable String rut) {
@@ -205,20 +199,20 @@ public class BankExecutiveController {
         }
     }
 
-    @GetMapping("/{rut}/verify-balance-and-age")
-    public ResponseEntity<String> verifyBalanceAndAccountAge(@PathVariable String rut) {
-        try {
-            boolean isEligible = bankExecutiveService.verifyBalanceAndAccountAge(rut);
-
-            if (isEligible) {
-                return ResponseEntity.ok("El cliente es elegible para el préstamo.");
-            } else {
-                return ResponseEntity.ok("El cliente no es elegible para el préstamo.");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("No se pudo verificar la información del cliente: " + e.getMessage());
-        }
-    }
+//    @GetMapping("/{rut}/verify-balance-and-age")
+//    public ResponseEntity<String> verifyBalanceAndAccountAge(@PathVariable String rut) {
+//        try {
+//            boolean isEligible = bankExecutiveService.verifyBalanceAndAccountAge(rut);
+//
+//            if (isEligible) {
+//                return ResponseEntity.ok("El cliente es elegible para el préstamo.");
+//            } else {
+//                return ResponseEntity.ok("El cliente no es elegible para el préstamo.");
+//            }
+//        } catch (Exception e) {
+//            return ResponseEntity.badRequest().body("No se pudo verificar la información del cliente: " + e.getMessage());
+//        }
+//    }
 
     @GetMapping("/check-large-withdrawals/{rut}")
     public ResponseEntity<String> checkLargeWithdrawals(@PathVariable String rut) {
@@ -229,28 +223,6 @@ public class BankExecutiveController {
         } else {
             return ResponseEntity.ok("El cliente no ha realizado retiros significativos en los últimos 6 meses.");
         }
-    }
-
-    @GetMapping("/evaluate/{rut}")
-    public ResponseEntity<String> evaluateClient(@PathVariable String rut) {
-        int result = bankExecutiveService.checkResultsEvaluationByRut(rut);
-
-        String evaluationStatus;
-
-        // Aprobación: Cumple con las 5 reglas
-        if (result == 5) {
-            evaluationStatus = "La capacidad de ahorro es sólida. Se puede continuar con la evaluación del crédito.";
-        }
-        // Revisión Adicional: Cumple con 3 o 4 reglas
-        else if (result >= 3 && result < 5) {
-            evaluationStatus = "La capacidad de ahorro es moderada. Se requiere una revisión adicional.";
-        }
-        // Rechazo: Cumple con menos de 2 reglas
-        else {
-            evaluationStatus = "La capacidad de ahorro es insuficiente. Se procede a rechazar la solicitud.";
-        }
-
-        return ResponseEntity.ok(evaluationStatus);
     }
 
     @GetMapping("/insurance/{rut}")

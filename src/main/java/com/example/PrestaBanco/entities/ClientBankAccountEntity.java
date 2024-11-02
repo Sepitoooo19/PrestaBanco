@@ -4,6 +4,7 @@ package com.example.PrestaBanco.entities;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -38,7 +39,7 @@ public class ClientBankAccountEntity {
     private String transaction;
 
     @Column(name = "transaction_date")
-    private LocalDate  transaction_date;
+    private LocalDate transaction_date;
 
     @Column(name = "account_opening")
     private LocalDate account_opening;
